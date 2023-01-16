@@ -9,27 +9,27 @@ The electron alternative for Go
 */
 
 export interface Position {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 }
 
 export interface Size {
-    w: number;
-    h: number;
+  w: number;
+  h: number;
 }
 
 export interface Screen {
-    isCurrent: boolean;
-    isPrimary: boolean;
-    width : number
-    height : number
+  isCurrent: boolean;
+  isPrimary: boolean;
+  width: number
+  height: number
 }
 
 // Environment information such as platform, buildtype, ...
 export interface EnvironmentInfo {
-    buildType: string;
-    platform: string;
-    arch: string;
+  buildType: string;
+  platform: string;
+  arch: string;
 }
 
 // [EventsEmit](https://wails.io/docs/reference/runtime/events#eventsemit)
