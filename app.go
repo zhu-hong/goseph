@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"net"
+	"strings"
 )
 
 // App struct
@@ -21,7 +22,29 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
+func (a *App) GetIP() (ip string) {
+	conn, err := net.Dial("udp", "8.8.8.8:53")
+	if err != nil {
+		return err.Error()
+	}
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+	ip = strings.Split(localAddr.String(), ":")[0]
+
+	return
+}
+
+func (a *App) GetIPs() (ips []string) {
+	addrs, _ := net.InterfaceAddrs()
+
+	for _, address := range addrs {
+		// check the address type and if it is not a loopback the display it
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				ips = append(ips, ipnet.IP.String())
+			}
+		}
+	}
+
+	return
 }
