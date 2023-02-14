@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createRoot } from 'react-dom/client'
+import App from './App'
 
-createApp(App).mount('#app')
+createRoot(document.getElementById('root')!).render(App())
