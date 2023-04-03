@@ -7,7 +7,7 @@
   "frontend:dev:watcher": "pnpm dev",
   "frontend:dev:serverUrl": "auto",
   "author": {
-    "name": "zh",
+    "name": "zhu-hong",
     "email": "zhxhyy@qq.com"
   }
 }
