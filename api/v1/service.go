@@ -3,7 +3,6 @@ package service
 import (
 	"io/fs"
 	"net/http"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -24,16 +23,7 @@ func RunService(assets fs.FS) {
 	engine.StaticFS("/static", http.FS(staticFiles))
 
 	// cors
-	engine.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST"},
-		AllowHeaders:     []string{"Origin", "Content-Type"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return true
-		},
-		MaxAge: 12 * time.Hour,
-	}))
+	engine.Use(cors.Default())
 
 	router := engine.Group("api/v1")
 	{
