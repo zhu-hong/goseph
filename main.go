@@ -11,7 +11,7 @@ import (
 )
 
 //go:embed all:frontend/dist
-var assets embed.FS
+var Assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
@@ -23,7 +23,7 @@ func main() {
 		Width:  1024,
 		Height: 768,
 		AssetServer: &assetserver.Options{
-			Assets: assets,
+			Assets: Assets,
 		},
 		OnStartup: app.startup,
 		Bind: []interface{}{

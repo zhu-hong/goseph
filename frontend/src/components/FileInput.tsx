@@ -1,5 +1,6 @@
 import { GetIP } from "@wailsjs/go/main/App"
 import { ChangeEvent, useState } from "react"
+import axios from 'axios'
 
 export function FileInput() {
   const [ip, setIP] = useState('')
@@ -8,16 +9,16 @@ export function FileInput() {
     const file = e.target.files?.[0]
 
     if(!file) return
-    
-    console.log(file)
 
-    const fr = new FileReader()
+    const fm = new FormData()
+    fm.append('fileName', file.name)
+    fm.append('isFrag', file.name)
+    fm.append('file', file)
 
-    fr.readAsText(file)
+    const curip = await GetIP()
+    console.log(curip)
 
-    fr.addEventListener('load', (e) => {
-      console.log(e.target?.result)
-    })
+    axios.post(`http://${curip}:1122/api/v1/upload`, fm)
   }
 
   async function getIp() {

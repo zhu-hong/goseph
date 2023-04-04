@@ -1,5 +1,8 @@
 import { FileInput } from '@/components/FIleInput'
+import { StrictMode } from 'react'
 
 export default function() {
-  return <FileInput />
+  return <StrictMode>
+    <FileInput />
+  </StrictMode>
 }
