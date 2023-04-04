@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"embed"
 
 	"github.com/wailsapp/wails/v2"
@@ -8,10 +9,12 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/mac"
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
+
+	service "goseph/api/v1"
 )
 
 //go:embed all:frontend/dist
-var Assets embed.FS
+var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
@@ -23,9 +26,12 @@ func main() {
 		Width:  1024,
 		Height: 768,
 		AssetServer: &assetserver.Options{
-			Assets: Assets,
+			Assets: assets,
 		},
-		OnStartup: app.startup,
+		OnStartup: func(ctx context.Context) {
+			app.startup(ctx)
+			service.RunService(assets)
+		},
 		Bind: []interface{}{
 			app,
 		},

@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"io/fs"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func runService() {
+func RunService(assets fs.FS) {
 	gin.SetMode(gin.ReleaseMode)
 
 	engine := gin.Default()
@@ -20,12 +20,12 @@ func runService() {
 	engine.MaxMultipartMemory = 1024 * 1024 * 1024 * 20
 
 	engine.StaticFile("/favicon.ico", "frontend/dist/favicon.ico")
-	staticFiles, _ := fs.Sub(Assets, "frontend/dist")
+	staticFiles, _ := fs.Sub(assets, "frontend/dist")
 	engine.StaticFS("/static", http.FS(staticFiles))
 
 	// cors
 	engine.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"PUT", "GET", "POST"},
+		AllowMethods:     []string{"GET", "POST"},
 		AllowHeaders:     []string{"Origin", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
