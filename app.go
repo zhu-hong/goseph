@@ -25,10 +25,9 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) GetIP() (ip string) {
-	conn, err := net.Dial("udp", "8.8.8.8:53")
-	if err != nil {
-		return err.Error()
-	}
+	conn, _ := net.Dial("udp", "8.8.8.8:53")
+
+	defer conn.Close()
 
 	localAddr := conn.LocalAddr().(*net.UDPAddr)
 	ip = strings.Split(localAddr.String(), ":")[0]
@@ -40,7 +39,6 @@ func (a *App) GetIPs() (ips []string) {
 	addrs, _ := net.InterfaceAddrs()
 
 	for _, address := range addrs {
-		// check the address type and if it is not a loopback the display it
 		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
 			if ipnet.IP.To4() != nil {
 				ips = append(ips, ipnet.IP.String())
