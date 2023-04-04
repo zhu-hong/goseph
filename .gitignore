@@ -15,6 +15,7 @@ dist-ssr
 *.local
 pnpm-lock.yaml
 package.json.md5
+package-lock.json
 
 # Editor directories and files
 .vscode/*
