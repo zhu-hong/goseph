@@ -21,7 +21,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	engine.SetTrustedProxies(nil)
 
 	// 20G限制
-	engine.MaxMultipartMemory = 1024 * 1024 * 1024 * 20
+	engine.MaxMultipartMemory = 1024 * 1024 * 1024 / 4
 
 	engine.StaticFile("/favicon.ico", "frontend/dist/favicon.ico")
 
