@@ -121,8 +121,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				}
 
 				ctx.JSON(http.StatusOK, gin.H{
-					"success": true,
-					"file":    ctx.Request.FormValue("hash") + filepath.Ext(ctx.Request.FormValue("fileName")),
+					"file": ctx.Request.FormValue("hash") + filepath.Ext(ctx.Request.FormValue("fileName")),
 				})
 				return
 			}
@@ -147,8 +146,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			}
 
 			ctx.JSON(http.StatusOK, gin.H{
-				"success": true,
-				"file":    "",
+				"file": "",
 			})
 		})
 
@@ -235,17 +233,15 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			}
 
 			ctx.JSON(http.StatusOK, gin.H{
-				"success": true,
-				"file":    paylod.Hash + filepath.Ext(paylod.FileName),
-				"message": "",
+				"file": paylod.Hash + filepath.Ext(paylod.FileName),
 			})
 
 			os.RemoveAll(mergePath)
 		})
 
-		router.GET("File/:path", func(ctx *gin.Context) {
-			if path := ctx.Param("path"); path != "" {
-				file := filepath.Join(exedir, "files", path)
+		router.GET("File/:name", func(ctx *gin.Context) {
+			if name := ctx.Param("name"); name != "" {
+				file := filepath.Join(exedir, "files", name)
 
 				_, err := os.Stat(file)
 				if err != nil {
