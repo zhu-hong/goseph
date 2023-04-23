@@ -4,13 +4,14 @@ import (
 	"context"
 	"embed"
 
+	"github.com/gin-gonic/gin"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 	"github.com/wailsapp/wails/v2/pkg/options/mac"
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
 
-	service "goseph/api/v1"
+	v1 "goseph/api/v1"
 )
 
 //go:embed all:frontend/dist
@@ -29,8 +30,9 @@ func main() {
 			Assets: assets,
 		},
 		OnStartup: func(ctx context.Context) {
+			engine := gin.Default()
+			v1.RunService(assets, engine)
 			app.startup(ctx)
-			service.RunService(assets)
 		},
 		Bind: []interface{}{
 			app,
