@@ -8,8 +8,8 @@
 
 ```ts
 {
-  hash: string,
-  fileName: string,
+  hash: string, // 文件hash值（整个文件）
+  fileName: string, // 文件名称
 }
 ```
 
@@ -32,3 +32,50 @@
   file: string,
 }
 ```
+
+## File（post）
+
+> 上传文件（分片）（分片大小`1/4GB`）
+
+## request
+
+```ts
+const fd = new FormData()
+fd.append('file', chunk) // 文件（分片）
+fd.append('hash', hash) // 文件hash值（整个文件）
+fd.append('fileName', file.name) // 文件名
+fd.append('index', index) // 分片索引（0开始），不传表示为整文件
+```
+
+## response
+
+```ts
+{
+  file: string, // 访问文件名
+}
+```
+
+## MergeFile（post）
+
+> 合并文件分片
+
+## request
+
+```ts
+{
+  hash: string, // 文件hash值（整个文件）
+  fileName: string, // 文件名称
+}
+```
+
+## response
+
+```ts
+{
+  file: string, // 合并后的文件名
+}
+```
+
+## File/:filename（get）
+
+> 访问上传的文件
