@@ -22,7 +22,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 
 	engine.SetTrustedProxies(nil)
 
-	// 20G限制
+	// 1/4GB限制
 	engine.MaxMultipartMemory = 1024 * 1024 * 1024 / 4
 
 	engine.StaticFile("/favicon.ico", "frontend/dist/favicon.ico")
@@ -33,8 +33,16 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	// 跨域
 	engine.Use(cors.Default())
 
+	wsHub := NewHub()
+	go wsHub.Run()
+
 	router := engine.Group("api/v1")
 	{
+		// websocket服务
+		router.GET("WS", func(ctx *gin.Context) {
+			Http4WSController(ctx, wsHub)
+		})
+
 		// 检查文件是否已上传或者上传了多少个分片
 		router.GET("CheckFile", func(ctx *gin.Context) {
 			type ChunkPaylod struct {
