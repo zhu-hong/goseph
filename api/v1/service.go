@@ -81,7 +81,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				}
 
 				ctx.JSON(http.StatusOK, gin.H{
-					"exist":  2,
+					"exist":  0,
 					"chunks": chunks,
 					"file":   "",
 				})
