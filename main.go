@@ -39,12 +39,12 @@ func main() {
 			WebviewIsTransparent: true,
 			WindowIsTranslucent:  true,
 			BackdropType:         windows.Acrylic,
-			Theme:                windows.Dark,
+			Theme:                windows.SystemDefault,
 		},
 		Mac: &mac.Options{
 			WebviewIsTransparent: true,
 			WindowIsTranslucent:  true,
-			Appearance:           mac.NSAppearanceNameDarkAqua,
+			Appearance:           mac.DefaultAppearance,
 		},
 	})
 
