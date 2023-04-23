@@ -36,7 +36,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	router := engine.Group("api/v1")
 	{
 		// 检查文件是否已上传或者上传了多少个分片
-		router.GET("/CheckFile", func(ctx *gin.Context) {
+		router.GET("CheckFile", func(ctx *gin.Context) {
 			type ChunkPaylod struct {
 				Hash     string `form:"hash" binding:"required"`
 				FileName string `form:"fileName" binding:"required"`
