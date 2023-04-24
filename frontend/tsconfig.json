@@ -14,14 +14,16 @@
     "noEmit": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@wailsjs/*": [
-        "wailsjs/*"
-      ]
+      "@/*": ["src/*"],
+      "@wailsjs/*": ["wailsjs/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "vite-env.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "vite-env.d.ts",
+    "src/components/Chat/Chat.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

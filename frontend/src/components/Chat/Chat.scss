@@ -1,0 +1,81 @@
+@keyframes setbox-show {
+  0% {
+    opacity: 0.1;
+    height: 50;
+    width: 50px;
+  }
+  50% {
+    opacity: 0.5;
+    height: 100px;
+    width: 100px;
+  }
+  100% {
+    opacity: 1;
+    height: 300px;
+    width: 200px;
+  }
+}
+
+.chat-main {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: rgb(13, 172, 235);
+  .triggle-img {
+    background: url("@/images/trigger.svg") center no-repeat;
+    background-size: 100% 100%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin: 0 0 10px 10px;
+    &:hover {
+      transition: ease-out 1.5s;
+      transform: rotate(360deg);
+    }
+  }
+  .setting-box-block {
+    position: absolute;
+    top: 40px;
+    border-radius: 8px;
+    width: 200px;
+    height: 300px;
+    z-index: 999;
+    display: block;
+    backdrop-filter: blur(30px);
+    background-color: rgba(255, 255, 255);
+    animation: setbox-show 0.5s linear;
+    word-break: break-all;
+    box-shadow: 10px 10px 10px rgba(81, 80, 80, 0.5);
+    padding: 10px;
+    overflow: hidden;
+    .setting-box-close {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      .img {
+        width: 20px;
+        height: 20px;
+        background-image: url("../../images/close.svg");
+        background-size: 100%;
+        &:hover {
+          transform: rotate(180deg);
+          transition: 1s;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .setting-box-none {
+    display: none;
+  }
+  .chat-content {
+    border-radius: 10px;
+    width: 100%;
+    background-color: rgb(22, 235, 250);
+    height: 100%;
+  }
+}
