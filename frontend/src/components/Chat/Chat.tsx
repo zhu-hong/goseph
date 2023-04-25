@@ -41,11 +41,19 @@ export default function Chat() {
         <Button>setting</Button>
       </div>
       <div className="chat-content">
+        {/* 飞机一直移动 */}
+        <div className="plane-move1"></div>
+        <div className="plane-move2"></div>
+        <div className="plane-move3"></div>
         <div className="chat-dialog">
+          {/* 聊天框 */}
           <div className="chat-chat"></div>
+          {/* 底部飞机按钮,选择文件 */}
           <div className="bottom-btn">
             <div className="pre-btn"></div>
+            {/* 子弹 */}
             <div className={zdclass}></div>
+            {/* 飞机 */}
             <div className="plane-box">
               <div onClick={changeClass} className="plane1-img"></div>
             </div>

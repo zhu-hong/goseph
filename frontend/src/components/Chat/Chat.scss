@@ -104,6 +104,37 @@
     transform: rotate(360deg);
   }
 }
+//飞机一直飞动画
+@keyframes plane-move1 {
+  0% {
+    right: -200px;
+  }
+
+  100% {
+    right: 100vw;
+    transform: rotate(45deg);
+  }
+}
+@keyframes plane-move2 {
+  0% {
+    right: -200px;
+  }
+
+  100% {
+    right: 100vw;
+    transform: rotate(45deg);
+  }
+}
+@keyframes plane-move3 {
+  0% {
+    right: -200px;
+  }
+
+  100% {
+    right: 100vw;
+    transform: rotate(45deg);
+  }
+}
 
 .chat-main {
   width: 100%;
@@ -242,6 +273,39 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    .plane-move1 {
+      background-image: url("../../images/plane1.webp");
+      background-size: 100% 100%;
+      width: 200px;
+      height: 150px;
+      position: fixed;
+      right: -200px;
+      top: 50px;
+      z-index: 1000;
+      animation: plane-move1 5s infinite;
+    }
+    .plane-move2 {
+      background-image: url("../../images/plane2.webp");
+      background-size: 100% 100%;
+      width: 200px;
+      height: 150px;
+      position: fixed;
+      right: -200px;
+      top: 50px;
+      z-index: 1000;
+      animation: plane-move2 5s infinite 2s;
+    }
+    .plane-move3 {
+      background-image: url("../../images/plane3.webp");
+      background-size: 100% 100%;
+      width: 200px;
+      height: 150px;
+      position: fixed;
+      right: -200px;
+      top: 50px;
+      z-index: 1000;
+      animation: plane-move3 5s infinite 4s;
+    }
     .chat-dialog {
       width: 70vw;
       height: 100%;
