@@ -1,3 +1,4 @@
+//设置盒子动画
 @keyframes setbox-show {
   0% {
     opacity: 0.1;
@@ -13,6 +14,94 @@
     opacity: 1;
     height: 300px;
     width: 200px;
+  }
+}
+//飞机动画
+@keyframes scalePlane {
+  // 动画设置
+  0% {
+    transform: scale(1) rotate(120deg);
+  }
+
+  25% {
+    transform: scale(1.2) rotate(120deg);
+  }
+
+  50% {
+    transform: scale(1) rotate(120deg);
+  }
+  75% {
+    transform: scale(1.2) rotate(120deg);
+  }
+}
+//火箭左边动画
+@keyframes scalePre {
+  // 动画设置
+  0% {
+    transform: scale(1) rotate(-90deg);
+  }
+
+  25% {
+    transform: scale(1.2) rotate(-90deg);
+  }
+
+  50% {
+    transform: scale(1) rotate(-90deg);
+  }
+  75% {
+    transform: scale(1.2) rotate(-90deg);
+  }
+}
+//火箭右边动画
+@keyframes scaleNext {
+  // 动画设置
+  0% {
+    transform: scale(1) rotate(90deg);
+  }
+
+  25% {
+    transform: scale(1.2) rotate(90deg);
+  }
+
+  50% {
+    transform: scale(1) rotate(90deg);
+  }
+  75% {
+    transform: scale(1.2) rotate(90deg);
+  }
+}
+//子弹动画
+@keyframes zdMove {
+  // 动画设置
+  0% {
+    bottom: 150px;
+  }
+
+  25% {
+    bottom: 250px;
+  }
+
+  50% {
+    bottom: 350px;
+  }
+  75% {
+    bottom: 500px;
+  }
+  100% {
+    bottom: 750px;
+  }
+}
+
+//3d图片动画
+@keyframes allImg {
+  0% {
+    transform: rotateY(50deg);
+  }
+  50% {
+    transform: rotateX(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -36,6 +125,79 @@
       transition: ease-out 1.5s;
       transform: rotate(360deg);
     }
+  }
+  .joker-img {
+    width: 100px;
+    height: 100px;
+    background-image: url("../../images/xiaolian.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 80px;
+    &:hover {
+      animation: allImg 1.5s infinite;
+    }
+  }
+  .yanjing-img {
+    width: 100px;
+    height: 100px;
+    background-image: url("../../images/yanjing.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 300px;
+    &:hover {
+      animation: allImg 1.5s infinite;
+    }
+  }
+  .youxiji-img {
+    width: 100px;
+    height: 100px;
+    background-image: url("../../images/youxiji.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    position: absolute;
+    right: 300px;
+    &:hover {
+      animation: allImg 1.5s infinite;
+    }
+  }
+  .liwu-img {
+    width: 100px;
+    height: 100px;
+    background-image: url("../../images/liwu.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 50px;
+    &:hover {
+      animation: allImg 1.5s infinite;
+    }
+  }
+  .huanglian-img {
+    width: 200px;
+    height: 200px;
+    background-image: url("../../images/huanglian.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 250px;
+    left: -10px;
+    border-radius: 100px 100px 30px 30px;
+    transform: rotate(90deg);
+  }
+  .lvlian-img {
+    width: 200px;
+    height: 200px;
+    background-image: url("../../images/lvlian.webp");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 250px;
+    right: 0px;
+    border-radius: 100px 100px 30px 30px;
+    transform: rotate(-90deg);
   }
   .setting-box-block {
     position: absolute;
@@ -77,5 +239,91 @@
     width: 100%;
     background-color: rgb(22, 235, 250);
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .chat-dialog {
+      width: 70vw;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .chat-chat {
+        width: 100%;
+        height: calc(100% - 50px);
+        // background-color: yellow;
+      }
+      .bottom-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 500px;
+        min-height: 150px;
+        // background-color: red;
+
+        .pre-btn {
+          width: 100px;
+          height: 100px;
+          background-image: url("../../images/huojian.webp");
+          background-size: 100% 100%;
+          transform: rotate(-90deg);
+          cursor: pointer;
+          &:hover {
+            animation: scalePre 2s infinite;
+          }
+        }
+        .zidan-img {
+          position: absolute;
+          bottom: 100px;
+          width: 50px;
+          height: 50px;
+          background-image: url("../../images/zidan.svg");
+          background-size: 100% 100%;
+        }
+        .zidan-img-move {
+          position: absolute;
+          bottom: 200px;
+          width: 50px;
+          height: 50px;
+          background-image: url("../../images/zidan.svg");
+          background-size: 100% 100%;
+          animation: zdMove 0.2s ease-in;
+          animation-fill-mode: forwards;
+        }
+        .plane-box {
+          width: 150px;
+          height: 150px;
+          // background-color: #fff;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .plane1-img {
+            bottom: 20px;
+            width: 120px;
+            height: 100px;
+            background-image: url("../../images/plane2.webp");
+            background-size: cover;
+            transform: rotate(120deg);
+            cursor: pointer;
+            &:hover {
+              animation: scalePlane 2s infinite;
+            }
+          }
+        }
+        .next-btn {
+          width: 100px;
+          height: 100px;
+          background-image: url("../../images/huojian.webp");
+          background-size: 100% 100%;
+          transform: rotate(90deg);
+          cursor: pointer;
+          &:hover {
+            animation: scaleNext 2s ease-in-out;
+          }
+        }
+      }
+    }
   }
 }
