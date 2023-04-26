@@ -3,14 +3,6 @@
   src: local("Apple Color Emojiji"), local("Segoe UI Emoji"), local("Segoe UI Symbol"), local("Noto Color Emoji");
   unicode-range: U+1F000-1F644, U+203C-3299;
 }
-/* 衬线字体 */
-.fontserif {
-  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-}
-/* 等宽字体 */
-.fontmono {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)

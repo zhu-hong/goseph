@@ -18,7 +18,11 @@
     "@types/node": "18.16.1",
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
+    "@unocss/transformer-directives": "^0.51.8",
+    "@unocss/transformer-variant-group": "^0.51.8",
     "@vitejs/plugin-react": "4.0.0",
+    "postcss": "^8.4.23",
+    "postcss-nested": "^6.0.1",
     "vite": "4.3.2"
   }
 }

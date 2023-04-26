@@ -10,7 +10,6 @@ html, body, #goseph {
 .nodrag {
   --wails-draggable: no-drag;
 }
-
-.input-form {
-  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+input {
+  --wails-draggable: no-drag;
 }
