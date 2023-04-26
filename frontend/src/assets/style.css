@@ -1,0 +1,16 @@
+html, body, #goseph {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  --wails-draggable: drag;
+}
+.drag {
+  --wails-draggable: drag;
+}
+.nodrag {
+  --wails-draggable: no-drag;
+}
+
+.input-form {
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+}
