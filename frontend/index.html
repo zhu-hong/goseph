@@ -6,8 +6,17 @@
     <title>goseph</title>
   </head>
   <body class="bg-light-100 dark:bg-dark-100">
-    <!-- wails半透明效果 -->
-    <script>(()=>{if(window.wails){document.body.className = ''}})()</script>
+    <!-- 优化在wails中的情况 -->
+    <script>
+      ((win)=>{
+        Object.defineProperty(win, 'inWails', {
+          value: win.wails !== undefined,
+        })
+        if(win.inWails){
+          document.body.className = ''
+        }
+      })(window)
+    </script>
 
     <div id="goseph"></div>
     <script type="module" src="/src/main.tsx"></script>
