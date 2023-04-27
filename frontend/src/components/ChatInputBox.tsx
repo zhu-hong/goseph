@@ -1,6 +1,5 @@
-import type { Message } from '@/App'
+import { Message, WebSocketState } from '@/types';
 import type { ChangeEvent, FC, FormEvent } from 'react'
-import { WebSocketState } from '@/App'
 import { useState } from 'react'
 
 interface ChatInputBoxProps {

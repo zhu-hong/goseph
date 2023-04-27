@@ -1,17 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChatInputBox } from './components/ChatInputBox'
-import { resolveWS } from './ws';
-
-export enum WebSocketState {
-  Connecting,
-  Open,
-  Close,
-}
-
-export interface Message {
-  type: 'text' | 'file';
-  value: string;
-}
+import { resolveWSURL } from './ws'
+import { Message, WebSocketState } from './types'
 
 let ws: WebSocket | null = null
 
@@ -19,25 +9,25 @@ export function App() {
   const [wsState, setWsState] = useState(WebSocketState.Connecting)
   const [messages, setMessages] = useState<Message[]>([])
 
-  function onMessage(e: MessageEvent) {
-    console.log(e)
-    setMessages((messages) => [...messages, JSON.parse(e.data)])
-  }
+  const onMessage = (e: MessageEvent) => setMessages((messages) => [...messages, JSON.parse(e.data)])
+  const onOpen = () => setWsState(WebSocketState.Open)
+  const onClose = () => setWsState(WebSocketState.Close)
 
-  const refRender = useRef(true)
+  async function initWS(ip = '') {
+    ws = new WebSocket(resolveWSURL(ip))
+    ws.addEventListener('open', onOpen)
+    ws.addEventListener('close', onClose)
+    ws.addEventListener('message', onMessage)
+  }
   
   useEffect(() => {
-    resolveWS().then((websocket) => {
-      if(refRender.current) {
-        refRender.current = false
-        return
-      }
-      ws = websocket
-      console.log(ws)
-      ws.addEventListener('open', () => setWsState(WebSocketState.Open))
-      ws.addEventListener('close', () => setWsState(WebSocketState.Close))
-      ws.addEventListener('message', onMessage)
-    })
+    initWS()
+
+    return () => {
+      ws!.removeEventListener('open', onOpen)
+      ws!.removeEventListener('close', onClose)
+      ws!.removeEventListener('message', onMessage)
+    }
   }, [])
 
   function onSend(message: Message) {
