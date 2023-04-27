@@ -39,7 +39,7 @@ export function App() {
     ws?.send(JSON.stringify(message))
   }
 
-  return <div className="max-w-640px h-full overflow-hidden flex flex-col mx-auto pb-4 px-4 lt-sm:pb-2 lt-sm:px-2">
+  return <div className="max-w-640px w-full h-full overflow-hidden flex flex-col mx-auto pb-4 px-4 lt-sm:pb-2 lt-sm:px-2">
     <ChatArea messages={messages} />
     <ChatInput onSend={onSend} wsState={wsState} />
   </div>

@@ -6,9 +6,9 @@ export const ChatArea: FC<{ messages: Message[] }> = ({ messages }) => {
     return messages.map((m) => m)
   }, [messages])
 
-  return <div className="flex-auto overflow-auto flex flex-col justify-end">
+  return <div className="flex-auto w-full overflow-auto flex flex-col">
     {
-      msgs.map((m, i) => <div key={i} className='mb-4 self-end'>{ m.value }</div>)
+      msgs.map((m, i) => <div key={i} className='mb-4 self-end nodrag first:mt-auto'>{ m.value }</div>)
     }
   </div>
 }

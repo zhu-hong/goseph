@@ -30,7 +30,7 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
     return text.length === 0 || wsState !== WebSocketState.Open
   }, [text.length, wsState])
 
-  return  <div className="flex-none flex justify-between items-center dark:text-white">
+  return  <div className="flex-none w-full flex justify-between items-center dark:text-white">
     <form
       onSubmit={onSubmit}
       className="flex-auto rounded-lg overflow-hidden h-48px shadow dark:shadow-dark-900 flex justify-between items-center bg-gray-100 dark:bg-dark-700"
