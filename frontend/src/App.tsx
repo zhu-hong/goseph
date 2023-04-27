@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { ChatInputBox } from './components/ChatInputBox'
+import { ChatInput } from './components/ChatInput'
 import { resolveWSURL } from './ws'
 import { Message, WebSocketState } from './types'
+import { ChatArea } from './components/ChatArea'
 
 let ws: WebSocket | null = null
 
@@ -11,7 +12,9 @@ export function App() {
 
   const onMessage = (e: MessageEvent) => setMessages((messages) => [...messages, JSON.parse(e.data)])
   const onOpen = () => setWsState(WebSocketState.Open)
-  const onClose = () => setWsState(WebSocketState.Close)
+  const onClose = () => {
+    setWsState(WebSocketState.Close)
+  }
 
   async function initWS(ip = '') {
     ws = new WebSocket(resolveWSURL(ip))
@@ -37,10 +40,7 @@ export function App() {
   }
 
   return <div className="max-w-640px h-full overflow-hidden flex flex-col mx-auto pb-4 px-4 lt-sm:pb-2 lt-sm:px-2">
-    <div className="flex-auto overflow-auto"></div>
-    {
-      messages.map((v, i) => <div key={i}>{v.value}</div>)
-    }
-    <ChatInputBox onSend={onSend} wsState={wsState} />
+    <ChatArea messages={messages} />
+    <ChatInput onSend={onSend} wsState={wsState} />
   </div>
 }
