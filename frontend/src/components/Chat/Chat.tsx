@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useRef } from "react";
 import { GetIP } from "@wailsjs/go/main/App";
 import axios from "axios";
 import "./Chat.scss";
-import ChatContent from "./ChatContent/Chatcontent";
+import ChatContent from "./ChatContent/ChatContent";
 import { Button } from "antd";
 
 export default function Chat() {
@@ -47,7 +47,6 @@ export default function Chat() {
       axios.post(`http://${file.type}:1122/api/v1/upload`, fm);
     } else {
       const curip = await GetIP();
-      console.log(curip);
       axios.post(`http://${curip}:1122/api/v1/upload`, fm);
     }
   }
@@ -99,20 +98,11 @@ export default function Chat() {
         <div className="chat-dialog">
           {/* 聊天框 */}
           <div className="chat-chat">
-            {/* <input
-              title="react"
-              type="file"
-              multiple
-              onChange={onInputChange}
-            /> */}
-
-            <span>{ip}</span>
             <ChatContent file={file} />
           </div>
           {/* 底部飞机按钮,选择文件 */}
           <div className="bottom-btn">
-            {/* 获取ip按钮 */}
-            <div onClick={getIp} className="pre-btn"></div>
+            <div className="pre-btn" onClick={getIp}></div>
             {/* 子弹 */}
             <div className={zdclass}></div>
             {/* 飞机 */}
@@ -127,8 +117,7 @@ export default function Chat() {
                 />
               </div>
             </div>
-            {/* 一样的获取ip按钮 */}
-            <div onClick={getIp} className="next-btn"></div>
+            <div className="next-btn" onClick={getIp}></div>
           </div>
         </div>
       </div>
