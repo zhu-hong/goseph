@@ -88,7 +88,7 @@
     bottom: 500px;
   }
   100% {
-    bottom: 750px;
+    bottom: 100vh;
   }
 }
 
@@ -136,6 +136,7 @@
   }
 }
 
+//明亮色
 .chat-main {
   width: 100%;
   height: 100%;
@@ -145,6 +146,456 @@
   flex-direction: column;
   padding: 10px;
   background-color: rgb(13, 172, 235);
+}
+.triggle-img {
+  background: url("@/images/trigger.svg") center no-repeat;
+  background-size: 100% 100%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 0 10px 10px;
+  z-index: 9999;
+  &:hover {
+    transition: ease-out 1.5s;
+    transform: rotate(360deg);
+  }
+}
+.joker-img {
+  width: 100px;
+  height: 100px;
+  background-image: url("../../images/xiaolian.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 80px;
+  animation: allImg 1.5s infinite;
+}
+.yanjing-img {
+  width: 100px;
+  height: 100px;
+  background-image: url("../../images/yanjing.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 300px;
+  animation: allImg 1.5s infinite;
+}
+.youxiji-img {
+  width: 100px;
+  height: 100px;
+  background-image: url("../../images/youxiji.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  position: absolute;
+  right: 300px;
+  animation: allImg 1.5s infinite;
+}
+.liwu-img {
+  width: 100px;
+  height: 100px;
+  background-image: url("../../images/liwu.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 50px;
+  animation: allImg 1.5s infinite;
+}
+.huanglian-img {
+  width: 200px;
+  height: 200px;
+  background-image: url("../../images/huanglian.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 250px;
+  left: -10px;
+  border-radius: 100px 100px 30px 30px;
+  transform: rotate(90deg);
+}
+.lvlian-img {
+  width: 200px;
+  height: 200px;
+  background-image: url("../../images/lvlian.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 250px;
+  right: 0px;
+  border-radius: 100px 100px 30px 30px;
+  transform: rotate(-90deg);
+}
+.setting-box-block {
+  position: absolute;
+  top: 40px;
+  border-radius: 8px;
+  width: 200px;
+  height: 300px;
+  z-index: 9999;
+  display: block;
+  // backdrop-filter: blur(30px);
+  background-color: rgba(255, 255, 255);
+  animation: setbox-show 0.5s linear;
+  word-break: break-all;
+  box-shadow: 10px 10px 10px rgba(81, 80, 80, 0.5);
+  padding: 10px;
+  overflow: hidden;
+  .setting-box-close {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    .img {
+      width: 20px;
+      height: 20px;
+      background-image: url("../../images/close.svg");
+      background-size: 100%;
+      &:hover {
+        transform: rotate(180deg);
+        transition: 1s;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.setting-box-none {
+  display: none;
+}
+.chat-content {
+  border-radius: 10px;
+  width: 100%;
+  background-color: rgb(22, 235, 250);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .plane-move1 {
+    background-image: url("../../images/plane1.webp");
+    background-size: 100% 100%;
+    width: 200px;
+    height: 150px;
+    position: fixed;
+    right: -200px;
+    top: 50px;
+    z-index: 1000;
+    animation: plane-move1 5s infinite;
+  }
+  .plane-move2 {
+    background-image: url("../../images/plane2.webp");
+    background-size: 100% 100%;
+    width: 200px;
+    height: 150px;
+    position: fixed;
+    right: -200px;
+    top: 50px;
+    z-index: 1000;
+    animation: plane-move2 5s infinite 2s;
+  }
+  .plane-move3 {
+    background-image: url("../../images/plane3.webp");
+    background-size: 100% 100%;
+    width: 200px;
+    height: 150px;
+    position: fixed;
+    right: -200px;
+    top: 50px;
+    z-index: 1000;
+    animation: plane-move3 5s infinite 4s;
+  }
+  .chat-dialog {
+    width: 70vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .chat-chat {
+      width: 100%;
+      height: calc(100% - 50px);
+      background: transparent;
+      padding: 60px 0 0 0;
+      z-index: 1999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .bottom-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 150px;
+      // background-color: red;
+
+      .pre-btn {
+        width: 100px;
+        height: 100px;
+        background-image: url("../../images/huojian.webp");
+        background-size: 100% 100%;
+        transform: rotate(-90deg);
+        cursor: pointer;
+        &:hover {
+          animation: scalePre 2s infinite;
+        }
+      }
+      .zidan-img {
+        position: absolute;
+        bottom: 100px;
+        width: 50px;
+        height: 50px;
+        background-image: url("../../images/zidan.svg");
+        background-size: 100% 100%;
+      }
+      .zidan-img-move {
+        position: absolute;
+        bottom: 200px;
+        width: 50px;
+        height: 50px;
+        background-image: url("../../images/zidan.svg");
+        background-size: 100% 100%;
+        animation: zdMove 0.2s ease-in;
+        animation-fill-mode: forwards;
+      }
+      .plane-box {
+        width: 150px;
+        height: 150px;
+        // background-color: #fff;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .plane1-img {
+          bottom: 20px;
+          width: 120px;
+          height: 100px;
+          background-image: url("../../images/plane2.webp");
+          background-size: cover;
+          transform: rotate(120deg);
+          cursor: pointer;
+          &:hover {
+            animation: scalePlane 2s infinite;
+          }
+        }
+      }
+      .next-btn {
+        width: 100px;
+        height: 100px;
+        background-image: url("../../images/huojian.webp");
+        background-size: 100% 100%;
+        transform: rotate(90deg);
+        cursor: pointer;
+        &:hover {
+          animation: scaleNext 2s ease-in-out;
+        }
+      }
+    }
+  }
+}
+
+//=========暗色==========
+
+.chat-mian-black {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: rgb(8, 36, 82);
+}
+.lvlian-img {
+  display: none;
+}
+.huanglian-img {
+  display: none;
+}
+.setting-box-bblack {
+  position: absolute;
+  top: 40px;
+  border-radius: 8px;
+  width: 200px;
+  height: 300px;
+  z-index: 9999;
+  display: block;
+
+  background-color: rgb(38, 37, 37);
+  animation: setbox-show 0.5s linear;
+  word-break: break-all;
+  box-shadow: 10px 10px 10px rgba(81, 80, 80, 0.5);
+  padding: 10px;
+  overflow: hidden;
+  .setting-box-close {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    .img {
+      width: 20px;
+      height: 20px;
+      background-image: url("../../images/closeWite.svg");
+      background-size: 100%;
+      &:hover {
+        transform: rotate(180deg);
+        transition: 1s;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.chat-content-black {
+  border-radius: 10px;
+  width: 100%;
+  // background-color: rgb(28, 30, 31);
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  // background-image: url("../../images/chatBG.jpg");
+  // background-size: cover;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .plane-move1 {
+    background-image: url("../../images/plane1.webp");
+    background-size: 100% 100%;
+    width: 150px;
+    height: 100px;
+    position: fixed;
+    right: -200px;
+    top: 80px;
+    z-index: 1000;
+    animation: plane-move1 5s infinite;
+  }
+  .plane-move2 {
+    background-image: url("../../images/plane2.webp");
+    background-size: 100% 100%;
+    width: 150px;
+    height: 100px;
+    position: fixed;
+    right: -200px;
+    top: 80px;
+    z-index: 1000;
+    animation: plane-move2 5s infinite 2s;
+  }
+  .plane-move3 {
+    background-image: url("../../images/plane3.webp");
+    background-size: 100% 100%;
+    width: 150px;
+    height: 100px;
+    position: fixed;
+    right: -200px;
+    top: 80px;
+    z-index: 1000;
+    animation: plane-move3 5s infinite 4s;
+  }
+  .chat-dialog {
+    width: 70vw;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .chat-chat {
+      width: 100%;
+      height: calc(100% - 50px);
+      background: transparent;
+      padding: 60px 0 0 0;
+      z-index: 1999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      span {
+        color: #fff;
+      }
+    }
+    .bottom-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 150px;
+      // background-color: red;
+
+      .pre-btn {
+        width: 100px;
+        height: 100px;
+        background-image: url("../../images/huojian.webp");
+        background-size: 100% 100%;
+        transform: rotate(-90deg);
+        cursor: pointer;
+        &:hover {
+          animation: scalePre 2s infinite;
+        }
+      }
+      .zidan-img {
+        position: absolute;
+        bottom: 100px;
+        width: 50px;
+        height: 50px;
+        background-image: url("../../images/zidan.svg");
+        background-size: 100% 100%;
+      }
+      .zidan-img-move {
+        position: absolute;
+        bottom: 200px;
+        width: 50px;
+        height: 50px;
+        background-image: url("../../images/zidan.svg");
+        background-size: 100% 100%;
+        animation: zdMove 0.2s ease-in;
+        animation-fill-mode: forwards;
+      }
+      .plane-box {
+        width: 150px;
+        height: 150px;
+        // background-color: #fff;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .plane1-img {
+          bottom: 20px;
+          width: 120px;
+          height: 100px;
+          background-image: url("../../images/plane2.webp");
+          background-size: cover;
+          transform: rotate(120deg);
+          cursor: pointer;
+          &:hover {
+            animation: scalePlane 2s infinite;
+          }
+        }
+      }
+      .next-btn {
+        width: 100px;
+        height: 100px;
+        background-image: url("../../images/huojian.webp");
+        background-size: 100% 100%;
+        transform: rotate(90deg);
+        cursor: pointer;
+        &:hover {
+          animation: scaleNext 2s ease-in-out;
+        }
+      }
+    }
+  }
+}
+
+//=========移动端==========
+@media screen and (max-width: 500px) {
+  .chat-main {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: rgb(13, 172, 235);
+  }
   .triggle-img {
     background: url("@/images/trigger.svg") center no-repeat;
     background-size: 100% 100%;
@@ -152,75 +603,62 @@
     height: 20px;
     cursor: pointer;
     margin: 0 0 10px 10px;
+    z-index: 9999;
     &:hover {
       transition: ease-out 1.5s;
       transform: rotate(360deg);
     }
   }
   .joker-img {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     background-image: url("../../images/xiaolian.webp");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
-    left: 80px;
+    left: 0px;
+    top: 300px;
     animation: allImg 1.5s infinite;
   }
   .yanjing-img {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     background-image: url("../../images/yanjing.webp");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
-    left: 300px;
+    left: 100px;
+    top: 15px;
     animation: allImg 1.5s infinite;
   }
   .youxiji-img {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     background-image: url("../../images/youxiji.webp");
     background-size: cover;
     background-repeat: no-repeat;
     box-sizing: border-box;
     position: absolute;
-    right: 300px;
+    right: 100px;
+    top: 15px;
     animation: allImg 1.5s infinite;
   }
   .liwu-img {
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     background-image: url("../../images/liwu.webp");
     background-size: cover;
     background-repeat: no-repeat;
     position: absolute;
-    right: 50px;
+    right: 0px;
+    top: 300px;
     animation: allImg 1.5s infinite;
   }
   .huanglian-img {
-    width: 200px;
-    height: 200px;
-    background-image: url("../../images/huanglian.webp");
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: absolute;
-    bottom: 250px;
-    left: -10px;
-    border-radius: 100px 100px 30px 30px;
-    transform: rotate(90deg);
+    display: none;
   }
   .lvlian-img {
-    width: 200px;
-    height: 200px;
-    background-image: url("../../images/lvlian.webp");
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: absolute;
-    bottom: 250px;
-    right: 0px;
-    border-radius: 100px 100px 30px 30px;
-    transform: rotate(-90deg);
+    display: none;
   }
   .setting-box-block {
     position: absolute;
@@ -228,9 +666,8 @@
     border-radius: 8px;
     width: 200px;
     height: 300px;
-    z-index: 999;
+    z-index: 9999;
     display: block;
-    backdrop-filter: blur(30px);
     background-color: rgba(255, 255, 255);
     animation: setbox-show 0.5s linear;
     word-break: break-all;
@@ -268,33 +705,33 @@
     .plane-move1 {
       background-image: url("../../images/plane1.webp");
       background-size: 100% 100%;
-      width: 200px;
-      height: 150px;
+      width: 150px;
+      height: 100px;
       position: fixed;
       right: -200px;
-      top: 50px;
+      top: 100px;
       z-index: 1000;
       animation: plane-move1 5s infinite;
     }
     .plane-move2 {
       background-image: url("../../images/plane2.webp");
       background-size: 100% 100%;
-      width: 200px;
-      height: 150px;
+      width: 150px;
+      height: 100px;
       position: fixed;
       right: -200px;
-      top: 50px;
+      top: 100px;
       z-index: 1000;
       animation: plane-move2 5s infinite 2s;
     }
     .plane-move3 {
       background-image: url("../../images/plane3.webp");
       background-size: 100% 100%;
-      width: 200px;
-      height: 150px;
+      width: 150px;
+      height: 100px;
       position: fixed;
       right: -200px;
-      top: 50px;
+      top: 100px;
       z-index: 1000;
       animation: plane-move3 5s infinite 4s;
     }
@@ -308,13 +745,15 @@
       .chat-chat {
         width: 100%;
         height: calc(100% - 50px);
-        // background-color: yellow;
+        background: transparent;
+        padding: 60px 0 0 0;
+        z-index: 1999;
       }
       .bottom-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 500px;
+        width: 100%;
         min-height: 150px;
         // background-color: red;
 
