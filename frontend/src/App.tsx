@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChatInputBox } from './components/ChatInputBox'
 import { resolveWS } from './ws';
 
@@ -20,16 +20,23 @@ export function App() {
   const [messages, setMessages] = useState<Message[]>([])
 
   function onMessage(e: MessageEvent) {
-    console.log(messages)
-    setMessages([...messages, JSON.parse(e.data)])
+    console.log(e)
+    setMessages((messages) => [...messages, JSON.parse(e.data)])
   }
+
+  const refRender = useRef(true)
   
   useEffect(() => {
     resolveWS().then((websocket) => {
+      if(refRender.current) {
+        refRender.current = false
+        return
+      }
       ws = websocket
+      console.log(ws)
       ws.addEventListener('open', () => setWsState(WebSocketState.Open))
       ws.addEventListener('close', () => setWsState(WebSocketState.Close))
-      ws.addEventListener('message', (e: MessageEvent) => onMessage(e))
+      ws.addEventListener('message', onMessage)
     })
   }, [])
 
