@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, useRef } from "react";
 import { GetIP } from "@wailsjs/go/main/App";
 import axios from "axios";
 import "./Chat.scss";
+import ChatContent from "./ChatContent/Chatcontent";
 import { Button } from "antd";
 
 export default function Chat() {
@@ -104,13 +105,14 @@ export default function Chat() {
               multiple
               onChange={onInputChange}
             /> */}
-            <span>选择的文件:{file}</span>
+
             <span>{ip}</span>
-            <button onClick={getIp}>getip</button>
+            <ChatContent file={file} />
           </div>
           {/* 底部飞机按钮,选择文件 */}
           <div className="bottom-btn">
-            <div className="pre-btn"></div>
+            {/* 获取ip按钮 */}
+            <div onClick={getIp} className="pre-btn"></div>
             {/* 子弹 */}
             <div className={zdclass}></div>
             {/* 飞机 */}
@@ -125,7 +127,8 @@ export default function Chat() {
                 />
               </div>
             </div>
-            <div className="next-btn"></div>
+            {/* 一样的获取ip按钮 */}
+            <div onClick={getIp} className="next-btn"></div>
           </div>
         </div>
       </div>
