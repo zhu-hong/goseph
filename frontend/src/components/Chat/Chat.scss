@@ -136,6 +136,33 @@
   }
 }
 
+//点击左右火箭切换飞机和聊天框动画
+@keyframes planeMove {
+  0% {
+    position: relative;
+    left: 0px;
+    opacity: 0.2;
+  }
+  100% {
+    position: relative;
+    left: 208px;
+    opacity: 1;
+  }
+}
+
+@keyframes inputMove {
+  0% {
+    position: relative;
+    left: 208px;
+    opacity: 0.2;
+  }
+  100% {
+    position: relative;
+    left: 0px;
+    opacity: 1;
+  }
+}
+
 //明亮色
 .chat-main {
   width: 100%;
@@ -356,24 +383,97 @@
         animation: zdMove 0.2s ease-in;
         animation-fill-mode: forwards;
       }
+      .zd-none {
+        display: none;
+      }
       .plane-box {
-        width: 150px;
+        width: 300px;
         height: 150px;
         // background-color: #fff;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        .plane1-img {
-          bottom: 20px;
-          width: 120px;
-          height: 100px;
-          background-image: url("../../images/plane2.webp");
-          background-size: cover;
-          transform: rotate(120deg);
-          cursor: pointer;
-          &:hover {
-            animation: scalePlane 2s infinite;
+        .plane-box-input-animation {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          animation: inputMove 0.5s ease-in;
+          animation-fill-mode: forwards;
+          .chat-input {
+            width: 295px;
+          }
+          .plane1-img {
+            bottom: 20px;
+            width: 120px;
+            height: 100px;
+            background-image: url("../../images/plane2.webp");
+            background-size: cover;
+            transform: rotate(120deg);
+            cursor: pointer;
+            position: relative;
+            left: -70px;
+            top: 0;
+            &:hover {
+              animation: scalePlane 2s infinite;
+            }
+          }
+        }
+        .plane-box-plane-animation {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          animation: planeMove 0.5s ease-in;
+          animation-fill-mode: forwards;
+          .chat-input {
+            width: 200px;
+          }
+          .plane1-img {
+            bottom: 20px;
+            width: 120px;
+            height: 100px;
+            background-image: url("../../images/plane2.webp");
+            background-size: cover;
+            transform: rotate(120deg);
+            cursor: pointer;
+            position: relative;
+            left: -115px;
+            &:hover {
+              animation: scalePlane 2s infinite;
+            }
+          }
+        }
+        .plane-box-move {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          left: 208px;
+
+          .chat-input {
+            width: 200px;
+          }
+          .plane1-img {
+            bottom: 20px;
+            width: 120px;
+            height: 100px;
+            background-image: url("../../images/plane2.webp");
+            background-size: cover;
+            transform: rotate(120deg);
+            cursor: pointer;
+            position: relative;
+            left: -115px;
+            top: 0px;
+            &:hover {
+              animation: scalePlane 2s infinite;
+            }
           }
         }
       }
@@ -404,11 +504,29 @@
   padding: 10px;
   background-color: rgb(8, 36, 82);
 }
-.lvlian-img {
-  display: none;
-}
 .huanglian-img {
-  display: none;
+  width: 200px;
+  height: 200px;
+  background-image: url("../../images/huanglian.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 250px;
+  left: -10px;
+  border-radius: 100px 100px 30px 30px;
+  transform: rotate(90deg);
+}
+.lvlian-img {
+  width: 200px;
+  height: 200px;
+  background-image: url("../../images/lvlian.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 250px;
+  right: 0px;
+  border-radius: 100px 100px 30px 30px;
+  transform: rotate(-90deg);
 }
 .setting-box-bblack {
   position: absolute;
@@ -549,23 +667,92 @@
         animation-fill-mode: forwards;
       }
       .plane-box {
-        width: 150px;
+        width: 300px;
         height: 150px;
         // background-color: #fff;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        .plane1-img {
-          bottom: 20px;
-          width: 120px;
-          height: 100px;
-          background-image: url("../../images/plane2.webp");
-          background-size: cover;
-          transform: rotate(120deg);
-          cursor: pointer;
-          &:hover {
-            animation: scalePlane 2s infinite;
+        .plane-box-input-animation {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          animation: inputMove 0.5s ease-in;
+          animation-fill-mode: forwards;
+          .chat-input {
+            width: 250px;
+          }
+          .plane1-img {
+            bottom: 20px;
+            width: 120px;
+            height: 100px;
+            background-image: url("../../images/plane2.webp");
+            background-size: cover;
+            transform: rotate(120deg);
+            cursor: pointer;
+            position: relative;
+            left: -70px;
+            top: 0;
+            &:hover {
+              animation: scalePlane 2s infinite;
+            }
+          }
+        }
+        .plane-box-plane-animation {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          animation: planeMove 0.5s ease-in;
+          animation-fill-mode: forwards;
+          .chat-input {
+            width: 200px;
+          }
+          .plane1-img {
+            bottom: 20px;
+            width: 120px;
+            height: 100px;
+            background-image: url("../../images/plane2.webp");
+            background-size: cover;
+            transform: rotate(120deg);
+            cursor: pointer;
+            position: relative;
+            left: -115px;
+            &:hover {
+              animation: scalePlane 2s infinite;
+            }
+          }
+        }
+        .plane-box-move {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          left: 208px;
+          .chat-input {
+            width: 200px;
+          }
+          .plane1-img {
+            bottom: 20px;
+            width: 120px;
+            height: 100px;
+            background-image: url("../../images/plane2.webp");
+            background-size: cover;
+            transform: rotate(120deg);
+            cursor: pointer;
+            position: relative;
+            left: -115px;
+            top: 0;
+            &:hover {
+              animation: scalePlane 2s infinite;
+            }
           }
         }
       }
@@ -694,6 +881,79 @@
   .setting-box-none {
     display: none;
   }
+  .zidan-img {
+    display: none;
+  }
+
+  //-----------------移动端暗系-------------------------------
+  .chat-content-black {
+    width: 100vw !important;
+    .zidan-img {
+      display: none;
+    }
+    .pre-btn {
+      display: none !important;
+    }
+    .next-btn {
+      display: none !important;
+    }
+    .chat-dialog {
+      width: 100vw !important;
+    }
+    .plane-box {
+      width: 100vw !important;
+      height: 150px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .plane-box-input-animation {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        left: 0;
+        .chat-input {
+          width: 90vw !important;
+        }
+        .plane1-img {
+          display: none;
+        }
+      }
+      .plane-box-plane-animation {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: none !important;
+        .chat-input {
+          width: 90vw !important;
+        }
+        .plane1-img {
+          display: none;
+        }
+      }
+      .plane-box-move {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        left: 0 !important;
+        .plane1-img {
+          display: none;
+        }
+        .chat-input {
+          width: 90vw !important;
+        }
+      }
+    }
+  }
+  //-------------------移动端明亮-----------------------
   .chat-content {
     border-radius: 10px;
     width: 100%;
@@ -736,7 +996,7 @@
       animation: plane-move3 5s infinite 4s;
     }
     .chat-dialog {
-      width: 70vw;
+      width: 100vw !important;
       height: 100%;
       display: flex;
       align-items: center;
@@ -756,67 +1016,73 @@
         width: 100%;
         min-height: 150px;
         // background-color: red;
-
         .pre-btn {
-          width: 100px;
-          height: 100px;
-          background-image: url("../../images/huojian.webp");
-          background-size: 100% 100%;
-          transform: rotate(-90deg);
-          cursor: pointer;
-          &:hover {
-            animation: scalePre 2s infinite;
-          }
+          display: none !important;
         }
         .zidan-img {
-          position: absolute;
-          bottom: 100px;
-          width: 50px;
-          height: 50px;
-          background-image: url("../../images/zidan.svg");
-          background-size: 100% 100%;
+          display: none;
         }
         .zidan-img-move {
-          position: absolute;
-          bottom: 200px;
-          width: 50px;
-          height: 50px;
-          background-image: url("../../images/zidan.svg");
-          background-size: 100% 100%;
-          animation: zdMove 0.2s ease-in;
-          animation-fill-mode: forwards;
+          display: none;
         }
         .plane-box {
-          width: 150px;
+          width: 100%;
           height: 150px;
           // background-color: #fff;
           overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
-          .plane1-img {
-            bottom: 20px;
-            width: 120px;
-            height: 100px;
-            background-image: url("../../images/plane2.webp");
-            background-size: cover;
-            transform: rotate(120deg);
-            cursor: pointer;
-            &:hover {
-              animation: scalePlane 2s infinite;
+          .plane-box-input-animation {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            left: 0;
+            animation: none !important;
+            .chat-input {
+              width: 90vw !important;
+            }
+            .plane1-img {
+              display: none;
+            }
+          }
+          .plane-box-plane-animation {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            left: 0;
+            animation: none !important;
+            .chat-input {
+              width: 90vw !important;
+            }
+            .plane1-img {
+              display: none;
+            }
+          }
+          .plane-box-move {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            left: 0;
+            .plane1-img {
+              display: none;
+            }
+            .chat-input {
+              width: 90vw !important;
             }
           }
         }
         .next-btn {
-          width: 100px;
-          height: 100px;
-          background-image: url("../../images/huojian.webp");
-          background-size: 100% 100%;
-          transform: rotate(90deg);
-          cursor: pointer;
-          &:hover {
-            animation: scaleNext 2s ease-in-out;
-          }
+          display: none !important;
         }
       }
     }

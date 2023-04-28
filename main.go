@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"embed"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/wailsapp/wails/v2"
@@ -23,19 +24,24 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "goseph",
-		Width:  1024,
-		Height: 768,
+		Title:     "goseph",
+		Width:     1024,
+		Height:    768,
+		MinWidth:  375,
+		MinHeight: 667,
+		Bind: []interface{}{
+			app,
+		},
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
 		OnStartup: func(ctx context.Context) {
+			gin.SetMode(gin.ReleaseMode)
 			engine := gin.Default()
+			engine.SetTrustedProxies(nil)
 			v1.RunService(assets, engine)
+
 			app.startup(ctx)
-		},
-		Bind: []interface{}{
-			app,
 		},
 		Windows: &windows.Options{
 			WebviewIsTransparent: true,
@@ -44,13 +50,14 @@ func main() {
 			Theme:                windows.SystemDefault,
 		},
 		Mac: &mac.Options{
+			TitleBar:             mac.TitleBarHiddenInset(),
+			Appearance:           mac.DefaultAppearance,
 			WebviewIsTransparent: true,
 			WindowIsTranslucent:  true,
-			Appearance:           mac.DefaultAppearance,
 		},
 	})
 
 	if err != nil {
-		println("Error:", err.Error())
+		log.Fatal(err.Error())
 	}
 }

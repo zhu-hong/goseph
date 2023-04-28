@@ -18,10 +18,6 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	exe, _ := os.Executable()
 	exedir := filepath.Dir(exe)
 
-	gin.SetMode(gin.ReleaseMode)
-
-	engine.SetTrustedProxies(nil)
-
 	// 1/4GB限制
 	engine.MaxMultipartMemory = 1024 * 1024 * 1024 / 4
 

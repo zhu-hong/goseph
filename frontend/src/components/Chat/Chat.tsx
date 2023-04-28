@@ -1,9 +1,15 @@
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { GetIP } from "@wailsjs/go/main/App";
 import axios from "axios";
 import "./Chat.scss";
 import ChatContent from "./ChatContent/ChatContent";
 import { Button } from "antd";
+import { resolveWSURL } from "../../ws";
+import { ChatInput } from "../../components/ChatInput";
+import { Message, WebSocketState } from "../../types";
+import { ChatArea } from "../../components/ChatArea";
+
+let ws: WebSocket | null = null;
 
 export default function Chat() {
   const [sboxClass, setSBoxClass] = useState("setting-box-none"); //设置弹出盒子是否显示
@@ -12,6 +18,40 @@ export default function Chat() {
   const [file, setFile] = useState("未选择"); //选择的文件
   const [mainClass, setMClass] = useState("chat-main"); //底部背景色
   const [content, setContent] = useState("chat-content"); //聊天盒子背景色
+  const [wsState, setWsState] = useState(WebSocketState.Connecting);
+  const [planeBoxMoveClass, setPlaneBoxMoveClass] = useState("plane-box-move");
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    initWS();
+
+    return () => {
+      ws!.removeEventListener("open", onOpen);
+      ws!.removeEventListener("close", onClose);
+      ws!.removeEventListener("message", onMessage);
+    };
+  }, []);
+
+  /*
+  发送消息
+*/
+  const onMessage = (e: MessageEvent) =>
+    setMessages((messages) => [...messages, JSON.parse(e.data)]);
+
+  const onOpen = () => setWsState(WebSocketState.Open);
+  const onClose = () => {
+    setWsState(WebSocketState.Close);
+  };
+  async function initWS(ip = "") {
+    ws = new WebSocket(resolveWSURL(ip));
+    ws.addEventListener("open", onOpen);
+    ws.addEventListener("close", onClose);
+    ws.addEventListener("message", onMessage);
+  }
+  function onSend(message: Message) {
+    if (wsState !== WebSocketState.Open) return;
+    ws?.send(JSON.stringify(message));
+  }
 
   // class主题切换
   function themeChange() {
@@ -31,8 +71,10 @@ export default function Chat() {
     setTimeout(() => {
       setZdClass("zidan-img");
     }, 300);
+    const filedom = document.getElementById("file");
+    filedom.click();
   }
-
+  //选择文件框框
   async function onInputChange(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -40,9 +82,7 @@ export default function Chat() {
     fm.append("fileName", file.name);
     fm.append("isFrag", file.name);
     fm.append("file", file);
-
     setFile(file.name);
-
     if (window.wails === undefined) {
       axios.post(`http://${file.type}:1122/api/v1/upload`, fm);
     } else {
@@ -50,11 +90,23 @@ export default function Chat() {
       axios.post(`http://${curip}:1122/api/v1/upload`, fm);
     }
   }
-
-  async function getIp() {
-    if (window.wails === undefined) return alert("not inWails");
-    const tip = await GetIP();
-    setIP(tip);
+  //点击左边火箭显示input
+  function showInput() {
+    // if (window.wails === undefined) return alert("not inWails");
+    // const tip = await GetIP();
+    // setIP(tip);
+    setZdClass("zd-none");
+    setPlaneBoxMoveClass("plane-box-input-animation");
+  }
+  //点击左边火箭显示飞机
+  function showPlane() {
+    // if (window.wails === undefined) return alert("not inWails");
+    // const tip = await GetIP();
+    // setIP(tip);
+    setPlaneBoxMoveClass("plane-box-plane-animation");
+    setTimeout(() => {
+      setZdClass("zidan-img");
+    }, 500);
   }
 
   return (
@@ -99,25 +151,32 @@ export default function Chat() {
           {/* 聊天框 */}
           <div className="chat-chat">
             <ChatContent file={file} />
+            <ChatArea messages={messages} />
           </div>
           {/* 底部飞机按钮,选择文件 */}
           <div className="bottom-btn">
-            <div className="pre-btn" onClick={getIp}></div>
+            <div className="pre-btn" onClick={showInput}></div>
             {/* 子弹 */}
             <div className={zdclass}></div>
             {/* 飞机 */}
             <div className="plane-box">
-              <div onClick={changeClass} className="plane1-img">
-                <input
-                  title="react"
-                  type="file"
-                  multiple
-                  onChange={onInputChange}
-                  style={{ opacity: 0, position: "relative", bottom: "-50px" }}
-                />
+              <div className={planeBoxMoveClass}>
+                <div onClick={changeClass} className="plane1-img">
+                  <input
+                    id="file"
+                    title="react"
+                    type="file"
+                    multiple
+                    onChange={onInputChange}
+                    style={{ display: "none" }}
+                  />
+                </div>
+                <div className="chat-input">
+                  <ChatInput onSend={onSend} wsState={wsState} />
+                </div>
               </div>
             </div>
-            <div className="next-btn" onClick={getIp}></div>
+            <div className="next-btn" onClick={showPlane}></div>
           </div>
         </div>
       </div>
