@@ -12,7 +12,35 @@ html, body, #goseph {
 }
 input {
   --wails-draggable: no-drag;
-  &:disable {
+  &:disabled {
+    --wails-draggable: drag;
+  }
+}
+input, button {
+  &:disabled {
+    --wails-draggable: drag;
     cursor: not-allowed;
   }
+}
+.chatarea {
+  overflow: overlay;
+}
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 6px;
+}
+:hover::-webkit-scrollbar-thumb {
+  @apply bg-gray-500/50;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track {
+  background: transparent;
 }
