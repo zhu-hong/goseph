@@ -20,7 +20,7 @@ export const WsState: FC<{ wsState: WebSocketState, onReconnect: () => void }> =
   }
   return <div
     className='absolute top-0 right-0 p-2'
-    title={['正在连接websocket','websocket已连接','websocket连接已断开'][wsState]}
+    title={['websocket connecting🎯','websocket connected✅','websocket disconnected💣click to retry connect'][wsState]}
     onClick={() => onWsStateClick(wsState)}
   >
     {resolveStateComponent(wsState)}

@@ -32,9 +32,12 @@ export function App() {
   }
 
   function releaseWS() {
-    ws?.removeEventListener('open', onOpen)
-    ws?.removeEventListener('close', onClose)
-    ws?.removeEventListener('message', onMessage)
+    ws!.removeEventListener('open', onOpen)
+    ws!.removeEventListener('close', onClose)
+    ws!.removeEventListener('message', onMessage)
+    if(ws!.readyState === ws!.OPEN) {
+      ws!.close(1000)
+    }
   }
 
   useEffect(() => {
@@ -60,7 +63,7 @@ export function App() {
   function onSend(message: Message) {
     if(wsState !== WebSocketState.Open) return
 
-    ws?.send(JSON.stringify(message))
+    ws!.send(JSON.stringify(message))
   }
 
   return <div
