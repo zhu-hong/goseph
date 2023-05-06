@@ -12,10 +12,11 @@ let delayCloseState: unknown = null
 export function App() {
   const [wsState, setWsState] = useState(WebSocketState.Connecting)
   const [messages, setMessages] = useState<Message[]>([])
+  const chatAreaRef = useRef<HTMLDivElement>(null)
 
   const onMessage = (e: MessageEvent) => {
     const msg: Message = JSON.parse(e.data)
-    setMessages((oldMsgs) => [...oldMsgs, msg])
+    setMessages((msgs) => [...msgs, msg])
   }
   const onOpen = () => {
     setWsState(() => WebSocketState.Open)
@@ -61,8 +62,8 @@ export function App() {
     }
   }
 
+  // 收到一条新消息，滑到底部
   useEffect(() => {
-    // 收到一条新消息，滑到底部
     const wrapper = chatAreaRef.current?.children[0]?.children
     wrapper?.[wrapper?.length-1]?.scrollIntoView({
       behavior: 'smooth',
@@ -70,9 +71,8 @@ export function App() {
       inline: 'end',
     })
   }, [messages])
-  
-  const chatAreaRef = useRef<HTMLDivElement>(null)
 
+  // 初始化websocket
   useEffect(() => {
     initWS()
 
@@ -92,7 +92,7 @@ export function App() {
   >
     <LocalAddr />
     <WsState wsState={wsState} onReconnect={initWS} />
-    <ChatArea messages={messages} onSend={onSend} ref={chatAreaRef} />
-    <ChatInput onSend={onSend} wsState={wsState} />
+    <ChatArea ref={chatAreaRef} messages={messages} onSend={onSend} />
+    <ChatInput wsState={wsState} onSend={onSend}  />
   </div>
 }

@@ -45,12 +45,10 @@ input, button {
   background: transparent;
 }
 .ipqr {
-  transform-origin: top right;
   animation-name: lookqr;
   animation-duration: .3s;
 }
 .noipqr {
-  transform-origin: top right;
   animation-name: nolookqr;
   animation-duration: .3s;
 }

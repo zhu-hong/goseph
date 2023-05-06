@@ -6,6 +6,7 @@ import { generateSvgPath } from '@/utils'
 export const LocalAddr = () => {
   if(!inWails) return null
 
+  const qrPanelRef = useRef<HTMLDivElement>(null)
   const [ip, setIp] = useState('')
   const [ips, setIps] = useState<string[]>([])
   const [showQr, setShowQr] = useState<boolean>()
@@ -29,20 +30,19 @@ export const LocalAddr = () => {
     return () => document.body.removeEventListener('click', hideQr)
   }, [])
 
-  const qrPanelRef = useRef<HTMLDivElement>(null)
+  // 二维码容器展开缩起动画
   useEffect(() => {
+    qrPanelRef.current?.classList.remove('noipqr', 'translate-x-300px', 'ipqr')
     if(showQr === true) {
-      qrPanelRef.current?.classList.remove('noipqr', 'translate-x-300px', 'ipqr')
       qrPanelRef.current?.classList.add('ipqr')
     } else if(showQr === false) {
-      qrPanelRef.current?.classList.remove('noipqr', 'translate-x-300px', 'ipqr')
       qrPanelRef.current?.classList.add('noipqr', 'translate-x-300px')
     } else {
-      qrPanelRef.current?.classList.remove('noipqr', 'translate-x-300px', 'ipqr')
       qrPanelRef.current?.classList.add('translate-x-300px')
     }
   }, [showQr])
 
+  // 更新二维码
   useEffect(() => {
     if(ip.length === 0) return
 
@@ -55,14 +55,14 @@ export const LocalAddr = () => {
     e.stopPropagation()
   }} >
     <div onClick={() => setShowQr(!showQr)} className="absolute top-0 right-0 p-2 text-xl text-gray-400 cursor-pointer rounded-full transition active:(bg-light dark:bg-dark)" title="手机扫码打开"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M1 1h10v10H1V1zm2 2v6h6V3H3z"></path><path fill="currentColor" fillRule="evenodd" d="M5 5h2v2H5z"></path><path fill="currentColor" d="M13 1h10v10H13V1zm2 2v6h6V3h-6z"></path><path fill="currentColor" fillRule="evenodd" d="M17 5h2v2h-2z"></path><path fill="currentColor" d="M1 13h10v10H1V13zm2 2v6h6v-6H3z"></path><path fill="currentColor" fillRule="evenodd" d="M5 17h2v2H5z"></path><path fill="currentColor" d="M23 19h-4v4h-6V13h1h-1v6h2v2h2v-6h-2v-2h-1h3v2h2v2h2v-4h2v6zm0 2v2h-2v-2h2z"></path></svg></div>
-    <div ref={qrPanelRef} className='absolute top-full right-0 w-60 p-5 shadow bg-white/50 dark:bg-gray-900/50 rounded backdrop-filter backdrop-blur-sm transform'>
+    <div ref={qrPanelRef} className='absolute top-full right-0 w-60 p-5 shadow bg-white/50 dark:bg-gray-900/50 rounded backdrop-filter backdrop-blur-sm transform origin-tr'>
       <div className='w-full h-50 rounded overflow-hidden'>
         <svg xmlns="http://www.w3.org/2000/svg" className='w-full h-full' viewBox={`0 0 ${qrViewBoxSize} ${qrViewBoxSize}`} shapeRendering="crispEdges">
           <path fill='#fff' d={`M0,0 h${qrViewBoxSize}v${qrViewBoxSize}H0z`}></path>
           <path fill='#000' d={svgPath}></path>
         </svg>
       </div>
-      <select value={ip} className='w-full mt-4' onChange={(e) => setIp(e.target.value)}>
+      <select value={ip} className='w-full mt-4' onChange={(e) => setIp(e.target.value)} title='选择ip'>
         {
           ips.map((ip) => <option key={ip} value={ip}>{ip}</option>)
         }

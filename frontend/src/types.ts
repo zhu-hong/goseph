@@ -21,8 +21,6 @@ export interface Message {
   /**
    * 文件消息特有
   */
-  state?: FileState;
-  progress?: number;
   fileType?: string;
   /**
    * 文件名或错误信息

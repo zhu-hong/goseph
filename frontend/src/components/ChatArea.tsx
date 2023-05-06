@@ -28,8 +28,7 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
       type: 'file',
       value: 'hello.gif',
       fileType: 'image/gif',
-      progress: 100,
-      state: FileState.SUCCESS,
+      tip: 'hello.gif',
     })
   }
   
