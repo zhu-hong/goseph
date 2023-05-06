@@ -61,7 +61,7 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
       </div>
       :
       <div className='w-full h-full flex flex-col justify-center items-center'>
-        <img src='./hello.gif' alt='hello' title='hello' className='inline-block cursor-pointer' onClick={sendHello} />
+        <img src='./hello.gif' alt='hello' title='hello' className='inline-block' onClick={sendHello} />
       </div>
     }
   </div>
