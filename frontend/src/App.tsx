@@ -4,6 +4,7 @@ import { resolveBaseUrl } from './utils'
 import { ChatArea } from './components/ChatArea'
 import { Message, WebSocketState } from './types'
 import { WsState } from './components/WsState'
+import { LocalAddr } from './components/LocalAddr'
 
 let ws: WebSocket | null = null
 let delayCloseState: unknown = null
@@ -89,6 +90,7 @@ export function App() {
   return <div
     className="w-full h-full overflow-hidden flex flex-col items-center mx-auto pb-4 px-4 lt-sm:pb-2 lt-sm:px-2"
   >
+    { inWails ? <LocalAddr /> : null }
     <WsState wsState={wsState} onReconnect={initWS} />
     <ChatArea messages={messages} onSend={onSend} ref={chatAreaRef} />
     <ChatInput onSend={onSend} wsState={wsState} />
