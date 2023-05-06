@@ -6,6 +6,7 @@ import { Message, WebSocketState } from './types'
 import { WsState } from './components/WsState'
 
 let ws: WebSocket | null = null
+let delayCloseState: unknown = null
 
 export function App() {
   const [wsState, setWsState] = useState(WebSocketState.Connecting)
@@ -15,10 +16,29 @@ export function App() {
     const msg: Message = JSON.parse(e.data)
     setMessages((oldMsgs) => [...oldMsgs, msg])
   }
-  const onOpen = () => setWsState(() => WebSocketState.Open)
+  const onOpen = () => {
+    setWsState(() => WebSocketState.Open)
+
+    if(delayCloseState === null) return
+
+    clearTimeout(delayCloseState as number)
+    delayCloseState = null
+  }
   const onClose = () => {
     releaseWS()
-    setWsState(() => WebSocketState.Close)
+
+    setWsState(() => WebSocketState.Connecting)
+
+    if(delayCloseState !== null) {
+      clearTimeout(delayCloseState as number)
+      delayCloseState = null
+    }
+
+    delayCloseState = setTimeout(() => {
+      setWsState(() => WebSocketState.Close)
+      clearTimeout(delayCloseState as number)
+      delayCloseState = null
+    }, 1500)
   }
 
   async function initWS() {
