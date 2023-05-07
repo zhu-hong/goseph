@@ -2,7 +2,7 @@ import { nanoid, customAlphabet } from 'nanoid'
 import { ParallelHasher } from 'ts-md5'
 import hashWorkerJs from 'ts-md5/dist/md5_worker?url'
 
-export const resolveBaseUrl = (): string => `${inWails ? 'localhost' : location.hostname}:1122`
+export const resolveBaseUrl = (): string => `${inWails ? 'localhost' : location.hostname}:4321`
 
 export const generateMsgId = () => nanoid(10)
 
