@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef } from 'react'
 
 const CHUNK_SIZE = 1024 * 1024 * 1024 / 4
-const baseURL = `http://${resolveBaseUrl()}:4321/api/v1`
+const baseURL = `http://${resolveBaseUrl()}:12138/api/v1`
 
 const request = axios.create({
   baseURL,

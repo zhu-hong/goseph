@@ -46,7 +46,7 @@ export const LocalAddr = () => {
   useEffect(() => {
     if(ip.length === 0) return
 
-    const modules = qrcodegen.QrCode.encodeText(`http://${ip}:4321/static/v1/`, qrcodegen.QrCode.Ecc.HIGH).getModules()
+    const modules = qrcodegen.QrCode.encodeText(`http://${ip}:12138/static/v1/`, qrcodegen.QrCode.Ecc.HIGH).getModules()
     setQrViewBoxSize(modules.length+2)
     setSvgPath(generateSvgPath(modules, 1))
   }, [ip])
