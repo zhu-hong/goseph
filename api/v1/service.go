@@ -18,14 +18,10 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	exe, _ := os.Executable()
 	exedir := filepath.Dir(exe)
 
-	gin.SetMode(gin.ReleaseMode)
-
-	engine.SetTrustedProxies(nil)
-
 	// 1/4GB限制
 	engine.MaxMultipartMemory = 1024 * 1024 * 1024 / 4
 
-	engine.StaticFile("/favicon.ico", "frontend/dist/favicon.ico")
+	engine.StaticFile("/favicon.ico", "../../frontend/dist/favicon.ico")
 
 	staticFiles, _ := fs.Sub(assets, "frontend/dist")
 	engine.StaticFS("/static/v1", http.FS(staticFiles))
@@ -267,5 +263,5 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 		})
 	}
 
-	engine.Run("0.0.0.0:1122")
+	engine.Run("0.0.0.0:12138")
 }

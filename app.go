@@ -22,7 +22,7 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
-func (a *App) GetIP() (ip string) {
+func (a *App) GetMaybeLocalIP() (ip string) {
 	conn, _ := net.Dial("udp", "8.8.8.8:53")
 
 	defer conn.Close()

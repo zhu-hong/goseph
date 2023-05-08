@@ -1,0 +1,75 @@
+html, body, #goseph {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  --wails-draggable: drag;
+}
+.drag {
+  --wails-draggable: drag;
+}
+.nodrag {
+  --wails-draggable: no-drag;
+}
+input {
+  --wails-draggable: no-drag;
+  &:disabled {
+    --wails-draggable: drag;
+  }
+}
+input, button {
+  &:disabled {
+    --wails-draggable: drag;
+    cursor: not-allowed;
+  }
+}
+.chatarea {
+  overflow: overlay;
+}
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 6px;
+}
+:hover::-webkit-scrollbar-thumb {
+  @apply bg-gray-500/50;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ipqr {
+  animation-name: lookqr;
+  animation-duration: .3s;
+}
+.noipqr {
+  animation-name: nolookqr;
+  animation-duration: .3s;
+}
+
+@keyframes lookqr {
+  from {
+    opacity: 0;
+    transform: scale(.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes nolookqr {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(.5);
+  }
+}

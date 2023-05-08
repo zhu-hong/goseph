@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 
-interface Window {
-  wails: any;
-}
+/**
+ * @description 是否在wailsapp中
+ */
+declare const inWails: boolean;
