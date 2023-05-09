@@ -21,7 +21,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	// 1/4GB限制
 	engine.MaxMultipartMemory = 1024 * 1024 * 1024 / 4
 
-	engine.StaticFile("/favicon.ico", "../../frontend/dist/favicon.ico")
+	engine.StaticFile("/favicon.ico", "./frontend/dist/favicon.ico")
 
 	staticFiles, _ := fs.Sub(assets, "frontend/dist")
 	engine.StaticFS("/static/v1", http.FS(staticFiles))
