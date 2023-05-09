@@ -38,7 +38,6 @@ func main() {
 		Height:    768,
 		MinWidth:  375,
 		MinHeight: 667,
-		Menu:      AppMenu,
 		Bind: []interface{}{
 			app,
 		},
