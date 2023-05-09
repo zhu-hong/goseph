@@ -22,7 +22,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	engine.MaxMultipartMemory = 1024 * 1024 * 1024 / 4
 
 	staticFiles, _ := fs.Sub(assets, "frontend/dist")
-	engine.StaticFS("/static/v1", http.FS(staticFiles))
+	engine.StaticFS("/z", http.FS(staticFiles))
 
 	// 跨域
 	engine.Use(cors.Default())
