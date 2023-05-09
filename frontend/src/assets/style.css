@@ -52,8 +52,8 @@ input, button {
 }
 .qr-panel-enter {
   display: block;
-  opacity: .5;
-  transform: scale(.5);
+  opacity: .6;
+  transform: scale(.6);
 }
 .qr-panel-enter-active {
   transform: scale(1);
@@ -68,6 +68,6 @@ input, button {
   opacity: 1;
 }
 .qr-panel-exit-active {
-  transform: scale(.5);
-  opacity: .5;
+  transform: scale(.6);
+  opacity: .6;
 }

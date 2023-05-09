@@ -20,7 +20,7 @@ export const LocalAddr = () => {
       setIp(ip)
     })
     GetIPs().then((ips) => {
-      setIps([...ips, '8.8.8.8'])
+      setIps(ips)
     })
 
     function hideQr() {
@@ -33,7 +33,7 @@ export const LocalAddr = () => {
   }, [])
 
   const localAddr = useMemo(() => {
-    return `http://${ip}:12138/z/`
+    return `${ip}:12138/z/`
   }, [ip])
 
   // 更新二维码
@@ -66,7 +66,7 @@ export const LocalAddr = () => {
             ips.map((ip) => <option key={ip} value={ip}>{ip}</option>)
           }
         </select>
-        <div onClick={() => BrowserOpenURL(localAddr)} className='text-rose-400 cursor-pointer underline'>{localAddr}</div>
+        <span onClick={() => BrowserOpenURL(`http://${localAddr}`)} className='text-rose-400 cursor-pointer underline'>{localAddr}</span>
       </div>
     </CSSTransition>
   </div>
