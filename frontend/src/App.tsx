@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ChatInput } from './components/ChatInput'
-import { resolveBaseUrl } from './utils'
+import { BASE_URL } from '@/const'
 import { ChatArea } from './components/ChatArea'
 import { Message, WebSocketState } from './types'
 import { WsState } from './components/WsState'
@@ -46,7 +46,7 @@ export function App() {
   async function initWS() {
     setWsState(WebSocketState.Connecting)
     if(ws === null || wsState === WebSocketState.Close) {
-      ws = new WebSocket(`ws://${resolveBaseUrl()}/api/v1/WS`)
+      ws = new WebSocket(`ws://${BASE_URL}/api/v1/WS`)
     }
     ws.addEventListener('open', onOpen)
     ws.addEventListener('close', onClose)

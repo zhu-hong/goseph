@@ -1,7 +1,8 @@
 import { useMemo, forwardRef, MouseEvent } from 'react'
-import { FileState, Message } from '@/types'
+import { Message } from '@/types'
 import { TextChat } from './TextChat'
-import { generateMsgId, resolveBaseUrl, usrid } from '@/utils'
+import { genMsgId } from '@/utils'
+import { BASE_URL, USRID } from '@/const'
 import type { PropsWithRef } from 'react'
 import { FileChat } from './FileChat'
 import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
@@ -16,15 +17,15 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
     return messages.map((m) => {
       return {
         ...m,
-        self: m.sender === usrid,
+        self: m.sender === USRID,
       }
     })
   }, [messages])
 
   function sendHello() {
     onSend({
-      id: generateMsgId(),
-      sender: usrid,
+      id: genMsgId(),
+      sender: USRID,
       type: 'file',
       value: 'hello.gif',
       fileType: 'image/gif',
@@ -36,7 +37,7 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
     if(!inWails) return
 
     e.preventDefault()
-    BrowserOpenURL(filename === 'hello.gif' ? `http://${resolveBaseUrl()}/static/v1/${filename}` : `http://${resolveBaseUrl()}/api/v1/File/${filename}`)
+    BrowserOpenURL(filename === 'hello.gif' ? `http://${BASE_URL}/z/${filename}` : `http://${BASE_URL}/api/v1/File/${filename}`)
   }
 
   return <div className="flex-auto w-full chatarea text-black dark:text-white" ref={ref}>

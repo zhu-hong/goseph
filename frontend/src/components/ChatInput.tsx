@@ -1,15 +1,8 @@
 import { Message, WebSocketState } from '@/types'
-import { generateMsgId, resolveBaseUrl, usrid } from '@/utils'
-import axios from 'axios'
+import { genMsgId } from '@/utils'
 import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef } from 'react'
+import { CHUNK_SIZE, USRID } from '@/const'
 
-const CHUNK_SIZE = 1024 * 1024 * 1024 / 4
-const baseURL = `http://${resolveBaseUrl()}:12138/api/v1`
-
-const request = axios.create({
-  baseURL,
-  timeout: 10000,
-})
 
 interface ChatInputProps {
   onSend: (message: Message) => void;
@@ -34,7 +27,7 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
 
     e.target.value = ''
 
-    const msgId = generateMsgId()
+    const msgId = genMsgId()
 
     if(file.size <= CHUNK_SIZE) {
       uploadCompleteFile(file)
@@ -51,8 +44,8 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
     if(text.length === 0) return
 
     onSend({
-      id: generateMsgId(),
-      sender: usrid,
+      id: genMsgId(),
+      sender: USRID,
       type: 'text',
       value: text,
     })

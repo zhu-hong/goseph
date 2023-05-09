@@ -1,12 +1,8 @@
-import { nanoid, customAlphabet } from 'nanoid'
+import { nanoid } from 'nanoid'
 import { ParallelHasher } from 'ts-md5'
 import hashWorkerJs from 'ts-md5/dist/md5_worker?url'
 
-export const resolveBaseUrl = (): string => `${inWails ? 'localhost' : location.hostname}:12138`
-
-export const generateMsgId = () => nanoid(10)
-
-export const usrid = customAlphabet('0123456789', 10)()
+export const genMsgId = () => nanoid(10)
 
 let hashWorker: ParallelHasher | null = null
 export const hasher = async (file: File) => {
