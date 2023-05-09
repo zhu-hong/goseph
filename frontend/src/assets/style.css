@@ -35,10 +35,10 @@ input, button {
   border-radius: 6px;
 }
 :hover::-webkit-scrollbar-thumb {
-  @apply bg-gray-500/50;
+  @apply bg-gray-500/20;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500;
+  @apply bg-gray-500/50;
 }
 ::-webkit-scrollbar-corner,
 ::-webkit-scrollbar-track {

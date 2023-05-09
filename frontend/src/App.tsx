@@ -88,7 +88,7 @@ export function App() {
   }
 
   return <div
-    className="w-full h-full overflow-hidden flex flex-col items-center mx-auto pb-4 px-4 lt-sm:pb-2 lt-sm:px-2"
+    className="w-full h-full overflow-hidden flex flex-col items-center mx-auto pb-4 lt-sm:pb-2"
   >
     <LocalAddr />
     <WsState wsState={wsState} onReconnect={initWS} />

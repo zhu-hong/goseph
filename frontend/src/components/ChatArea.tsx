@@ -40,7 +40,7 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
     BrowserOpenURL(filename === 'hello.gif' ? `http://${BASE_URL}/z/${filename}` : `http://${BASE_URL}/api/v1/File/${filename}`)
   }
 
-  return <div className="flex-auto w-full chatarea text-black dark:text-white" ref={ref}>
+  return <div className="flex-auto w-full chatarea text-black dark:text-white pt-2" ref={ref}>
     {
       msgs.length > 0
       ?

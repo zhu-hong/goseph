@@ -74,7 +74,7 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
     return () => document.removeEventListener('keydown', focusInput)
   }, [])
 
-  return  <div className="max-w-640px flex-none w-full mt-2 flex justify-between items-center dark:text-white">
+  return  <div className="max-w-640px flex-none w-full mt-2 flex justify-between items-center dark:text-white px-4 lt-sm:px-2">
     <form
       onSubmit={onSubmit}
       className="flex-auto rounded-lg overflow-hidden h-48px shadow dark:shadow-dark-900 flex justify-between items-center bg-gray-100 dark:bg-dark-700"
