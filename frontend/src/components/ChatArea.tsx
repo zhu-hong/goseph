@@ -51,7 +51,7 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
             <a
               onClick={(e) => onFileChatClick(e, msg.value)}
               href={msg.value} target='_blank'
-              key={msg.id} className={[msg.self ? 'self-end' : 'self-start', 'not-last:mb-4 first:mt-auto'].join(' ')}
+              key={msg.id} className={[msg.self ? 'self-end' : 'self-start', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}
             >
               <FileChat msg={msg} />
             </a>
