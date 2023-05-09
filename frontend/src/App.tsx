@@ -42,6 +42,9 @@ export function App() {
       delayCloseState = null
     }, 1500)
   }
+  const onError = (error: Event) => {
+    console.error(error)
+  }
 
   async function initWS() {
     setWsState(WebSocketState.Connecting)
@@ -51,12 +54,14 @@ export function App() {
     ws.addEventListener('open', onOpen)
     ws.addEventListener('close', onClose)
     ws.addEventListener('message', onMessage)
+    ws.addEventListener('error', onError)
   }
 
   function releaseWS() {
     ws!.removeEventListener('open', onOpen)
     ws!.removeEventListener('close', onClose)
     ws!.removeEventListener('message', onMessage)
+    ws!.removeEventListener('error', onError)
     if(ws!.readyState === ws!.OPEN) {
       ws!.close(1000)
     }

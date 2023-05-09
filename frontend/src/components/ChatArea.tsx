@@ -47,12 +47,14 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
       <div className='max-w-640px h-full mx-auto flex flex-col'>
         {
           msgs.map((msg) => {
-            return msg.type === 'text' ? 
-            <TextChat key={msg.id} msg={msg} className={[msg.self ? 'self-end' : 'self-start', 'not-last:mb-4 first:mt-auto'].join(' ')} /> :
+            return msg.type === 'text'
+            ? 
+            <TextChat key={msg.id} msg={msg} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto'].join(' ')} />
+            :
             <a
               onClick={(e) => onFileChatClick(e, msg.value)}
               href={msg.value} target='_blank'
-              key={msg.id} className={[msg.self ? 'self-end' : 'self-start', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}
+              key={msg.id} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}
             >
               <FileChat msg={msg} />
             </a>
