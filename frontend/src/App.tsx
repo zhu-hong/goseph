@@ -5,21 +5,20 @@ import { ChatArea } from './components/ChatArea'
 import { Message, WebSocketState } from './types'
 import { WsState } from './components/WsState'
 import { LocalAddr } from './components/LocalAddr'
+import { useWsStore } from './store'
 
 let ws: WebSocket | null = null
 let delayCloseState: unknown = null
 
 export function App() {
-  const [wsState, setWsState] = useState(WebSocketState.Connecting)
-  const [messages, setMessages] = useState<Message[]>([])
-  const chatAreaRef = useRef<HTMLDivElement>(null)
+  const { wsState, setWsState, messages, setMessages } = useWsStore()
 
   const onMessage = (e: MessageEvent) => {
     const msg: Message = JSON.parse(e.data)
-    setMessages((msgs) => [...msgs, msg])
+    setMessages(msg)
   }
   const onOpen = () => {
-    setWsState(() => WebSocketState.Open)
+    setWsState(WebSocketState.Open)
 
     if(delayCloseState === null) return
 
@@ -29,7 +28,7 @@ export function App() {
   const onClose = () => {
     releaseWS()
 
-    setWsState(() => WebSocketState.Connecting)
+    setWsState(WebSocketState.Connecting)
 
     if(delayCloseState !== null) {
       clearTimeout(delayCloseState as number)
@@ -37,7 +36,7 @@ export function App() {
     }
 
     delayCloseState = setTimeout(() => {
-      setWsState(() => WebSocketState.Close)
+      setWsState(WebSocketState.Close)
       clearTimeout(delayCloseState as number)
       delayCloseState = null
     }, 1500)
@@ -67,16 +66,6 @@ export function App() {
     }
   }
 
-  // 收到一条新消息，滑到底部
-  useEffect(() => {
-    const wrapper = chatAreaRef.current?.children[0]?.children
-    wrapper?.[wrapper?.length-1]?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'end',
-    })
-  }, [messages])
-
   // 初始化websocket
   useEffect(() => {
     initWS()
@@ -96,8 +85,8 @@ export function App() {
     className="w-full h-full overflow-hidden flex flex-col items-center mx-auto pb-4 lt-sm:pb-2"
   >
     <LocalAddr />
-    <WsState wsState={wsState} onReconnect={initWS} />
-    <ChatArea ref={chatAreaRef} messages={messages} onSend={onSend} />
-    <ChatInput wsState={wsState} onSend={onSend}  />
+    <WsState onReconnect={initWS} />
+    <ChatArea onSend={onSend} />
+    <ChatInput onSend={onSend}  />
   </div>
 }

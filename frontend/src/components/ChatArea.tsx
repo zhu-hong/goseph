@@ -1,24 +1,37 @@
-import { useMemo, forwardRef, MouseEvent } from 'react'
+import { useMemo, MouseEvent, FC, useEffect, useRef } from 'react'
 import { Message } from '@/types'
 import { TextChat } from './TextChat'
 import { genMsgId } from '@/utils'
 import { BASE_URL, USRID } from '@/const'
-import type { PropsWithRef } from 'react'
 import { FileChat } from './FileChat'
 import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
+import { useWsStore } from '@/store'
 
 interface ChatAreaProps {
-  messages: Message[];
-  onSend: (message: Message) => void;
+  onSend: (message: Message) => void
 }
 
-export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(({ messages, onSend }, ref) => {
+export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
+  const { messages } = useWsStore()
+
+  const chatAreaRef = useRef<HTMLDivElement>(null)
+
   const msgs = useMemo(() => {
     return messages.map((m) => {
       return {
         ...m,
         self: m.sender === USRID,
       }
+    })
+  }, [messages])
+
+  // 收到一条新消息，滑到底部
+  useEffect(() => {
+    const wrapper = chatAreaRef.current?.children[0]?.children
+    wrapper?.[wrapper?.length-1]?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+      inline: 'end',
     })
   }, [messages])
 
@@ -40,7 +53,7 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
     BrowserOpenURL(filename === 'hello.gif' ? `http://${BASE_URL}/z/${filename}` : `http://${BASE_URL}/api/v1/File/${filename}`)
   }
 
-  return <div className="flex-auto w-full chatarea text-black dark:text-white pt-2" ref={ref}>
+  return <div className="flex-auto w-full chatarea text-black dark:text-white pt-2" ref={chatAreaRef}>
     {
       msgs.length > 0
       ?
@@ -67,4 +80,4 @@ export const ChatArea = forwardRef<HTMLDivElement, PropsWithRef<ChatAreaProps>>(
       </div>
     }
   </div>
-})
+}

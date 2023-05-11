@@ -2,16 +2,16 @@ import { Message, WebSocketState } from '@/types'
 import { genMsgId } from '@/utils'
 import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef } from 'react'
 import { CHUNK_SIZE, USRID } from '@/const'
-
+import { useWsStore } from '@/store';
 
 interface ChatInputProps {
-  onSend: (message: Message) => void;
-  wsState: WebSocketState;
+  onSend: (message: Message) => void
 }
 
-export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
-  const [text, setText] = useState('')
+export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
+  const { wsState } = useWsStore()
 
+  const [text, setText] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
   const uploadRef = useRef<HTMLInputElement>(null)
