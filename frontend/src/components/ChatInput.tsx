@@ -1,24 +1,17 @@
 import { Message, WebSocketState } from '@/types'
-import { generateMsgId, resolveBaseUrl, usrid } from '@/utils'
-import axios from 'axios'
+import { genMsgId } from '@/utils'
 import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef } from 'react'
-
-const CHUNK_SIZE = 1024 * 1024 * 1024 / 4
-const baseURL = `http://${resolveBaseUrl()}:12138/api/v1`
-
-const request = axios.create({
-  baseURL,
-  timeout: 10000,
-})
+import { CHUNK_SIZE, USRID } from '@/const'
+import { useWsStore } from '@/store';
 
 interface ChatInputProps {
-  onSend: (message: Message) => void;
-  wsState: WebSocketState;
+  onSend: (message: Message) => void
 }
 
-export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
-  const [text, setText] = useState('')
+export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
+  const { wsState } = useWsStore()
 
+  const [text, setText] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
   const uploadRef = useRef<HTMLInputElement>(null)
@@ -34,7 +27,7 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
 
     e.target.value = ''
 
-    const msgId = generateMsgId()
+    const msgId = genMsgId()
 
     if(file.size <= CHUNK_SIZE) {
       uploadCompleteFile(file)
@@ -51,8 +44,8 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
     if(text.length === 0) return
 
     onSend({
-      id: generateMsgId(),
-      sender: usrid,
+      id: genMsgId(),
+      sender: USRID,
       type: 'text',
       value: text,
     })
@@ -81,7 +74,7 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, wsState }) => {
     return () => document.removeEventListener('keydown', focusInput)
   }, [])
 
-  return  <div className="max-w-640px flex-none w-full mt-2 flex justify-between items-center dark:text-white">
+  return  <div className="max-w-640px flex-none w-full mt-2 flex justify-between items-center dark:text-white px-4 lt-sm:px-2">
     <form
       onSubmit={onSubmit}
       className="flex-auto rounded-lg overflow-hidden h-48px shadow dark:shadow-dark-900 flex justify-between items-center bg-gray-100 dark:bg-dark-700"

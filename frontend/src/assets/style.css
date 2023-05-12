@@ -35,41 +35,39 @@ input, button {
   border-radius: 6px;
 }
 :hover::-webkit-scrollbar-thumb {
-  @apply bg-gray-500/50;
+  @apply bg-gray-500/20;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500;
+  @apply bg-gray-500/50;
 }
 ::-webkit-scrollbar-corner,
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-.ipqr {
-  animation-name: lookqr;
-  animation-duration: .3s;
-}
-.noipqr {
-  animation-name: nolookqr;
-  animation-duration: .3s;
-}
 
-@keyframes lookqr {
-  from {
-    opacity: 0;
-    transform: scale(.5);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
+.addr-panel {
+  :where(.qr-panel) {
+    display: none;
   }
 }
-@keyframes nolookqr {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(.5);
-  }
+.qr-panel-enter {
+  display: block;
+  opacity: .6;
+  transform: scale(.6);
+}
+.qr-panel-enter-active {
+  transform: scale(1);
+  opacity: 1;
+}
+.qr-panel-enter-done {
+  display: block;
+}
+.qr-panel-exit {
+  display: block;
+  transform: scale(1);
+  opacity: 1;
+}
+.qr-panel-exit-active {
+  transform: scale(.6);
+  opacity: .6;
 }

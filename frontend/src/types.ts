@@ -13,17 +13,17 @@ export enum FileState {
 }
 
 export interface Message {
-  id: string;
+  id: string
   sender: string;
-  type: 'text' | 'file';
-  value: string;
+  type: 'text' | 'file'
+  value: string
 
   /**
    * 文件消息特有
   */
-  fileType?: string;
+  fileType?: string
   /**
    * 文件名或错误信息
   */
-  tip?: string;
+  tip?: string
 }
