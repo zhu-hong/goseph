@@ -60,7 +60,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			// 存在这个文件了
 			if err == nil {
 				ctx.JSON(http.StatusOK, gin.H{
-					"exist":  1,
+					"exist":  true,
 					"chunks": []string{},
 					"file":   hash + filepath.Ext(paylod.FileName),
 				})
@@ -83,7 +83,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				}
 
 				ctx.JSON(http.StatusOK, gin.H{
-					"exist":  0,
+					"exist":  false,
 					"chunks": chunks,
 					"file":   "",
 				})
@@ -91,7 +91,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			}
 
 			ctx.JSON(http.StatusOK, gin.H{
-				"exist":  0,
+				"exist":  false,
 				"chunks": []string{},
 				"file":   "",
 			})
