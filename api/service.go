@@ -104,7 +104,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 
 			// 上传了整个文件
 			if len(index) == 0 {
-				savePath := filepath.Join(exedir, "files", ctx.Request.FormValue("hash")+filepath.Ext(ctx.Request.FormValue("fileName")))
+				savePath := filepath.Join(exedir, "files", ctx.Request.FormValue("hash")+filepath.Ext(file.Filename))
 
 				err := os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm)
 				if err != nil {
