@@ -3,7 +3,7 @@ import type { FC } from 'react'
 
 export const TextChat: FC<{ msg: Message; className?: string }> = (props) => {
   return <div
-    className={[props.className, 'chat-block nodrag bg-white dark:bg-black px-4 py-2 rounded whitespace-pre-wrap'].join(' ')}
+    className={[props.className, 'nodrag bg-white dark:bg-black px-4 py-2 rounded whitespace-pre-wrap'].join(' ')}
     style={{
       'lineBreak': 'anywhere',
     }}

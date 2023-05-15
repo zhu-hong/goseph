@@ -1,9 +1,8 @@
 import { Message, WebSocketState } from '@/types'
-import { genMsgId } from '@/utils'
-import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef } from 'react'
-import { CHUNK_SIZE, USRID } from '@/const'
+import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef, type ClipboardEvent } from 'react'
+import { BASE_URL, CHUNK_SIZE, USRID } from '@/const'
 import { useWsStore } from '@/store';
-import { hasher } from '@/utils';
+import { hasher, checkFile, genMsgId, uploadFile, genTextMsg, genFileMsg } from '@/utils';
 
 interface ChatInputProps {
   onSend: (message: Message) => void
@@ -23,8 +22,14 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
   function onFileChange(e: ChangeEvent<HTMLInputElement>) {
     const files = e.target.files
 
-    if(files?.length === 0) return
+    if(files === null || files.length === 0) return
 
+    filesChannel(files!)
+    
+    e.target.value = ''
+  }
+
+  function filesChannel(files: FileList) {
     Array.from(files!).forEach(async (file) => {
       if(file.size <= CHUNK_SIZE) {
         uploadSingleFile(file)
@@ -32,12 +37,35 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
         
       }
     })
-    
-    e.target.value = ''
   }
 
   async function uploadSingleFile(file: File) {
     const hash = await hasher(file)
+
+    const checkRes = await checkFile({
+      hash,
+      fileName: file.name,
+    })
+    
+    if(checkRes.exist) {
+      onSend(genFileMsg({
+        fileType: file.type,
+        file: checkRes.file,
+        tip: file.name,
+      }))
+    } else {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('hash', hash)
+      fd.append('fileName', file.name)
+      const ulRes = await uploadFile(fd)
+
+      onSend(genFileMsg({
+        fileType: file.type,
+        file: ulRes.file,
+        tip: file.name,
+      }))
+    }
   }
 
   async function uploadSplitFile(file: File) {
@@ -48,13 +76,15 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
 
     if(text.length === 0) return
 
-    onSend({
-      id: genMsgId(),
-      sender: USRID,
-      type: 'text',
-      value: text,
-    })
+    onSend(genTextMsg(text))
     setText('')
+  }
+
+  function onPaste(e: ClipboardEvent<HTMLInputElement>) {
+    if(e.clipboardData.files.length === 0) return
+
+    e.preventDefault()
+    filesChannel(e.clipboardData.files)
   }
 
   const disabled = useMemo(() => {
@@ -92,6 +122,8 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
         title='text'
         autoComplete="off"
         aria-autocomplete="none"
+        maxLength={464}
+        onPaste={(e) => onPaste(e)}
       />
       <button disabled={disabled} title='发送' type="submit" className='flex-none w-38px h-38px rounded-full grid place-items-center transition  mx-1 text-gray-400 not-disabled:hover:(text-rose-400 bg-white dark:bg-black)'>
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 16 16"><path fill="currentColor" d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26l.001.002l4.995 3.178l3.178 4.995l.002.002l.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215l7.494-7.494l1.178-.471l-.47 1.178Z"/></svg>

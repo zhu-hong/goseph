@@ -1,11 +1,12 @@
 import { useMemo, MouseEvent, FC, useEffect, useRef } from 'react'
 import { Message } from '@/types'
 import { TextChat } from './TextChat'
-import { genMsgId } from '@/utils'
+import { genFileMsg, genFilePath } from '@/utils'
 import { BASE_URL, USRID } from '@/const'
 import { FileChat } from './FileChat'
 import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
 import { useWsStore } from '@/store'
+import { FileLink } from './FileLink'
 
 interface ChatAreaProps {
   onSend: (message: Message) => void
@@ -36,21 +37,11 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
   }, [messages])
 
   function sendHello() {
-    onSend({
-      id: genMsgId(),
-      sender: USRID,
-      type: 'file',
-      value: 'hello.gif',
+    onSend(genFileMsg({
+      file: 'hello.gif',
       fileType: 'image/gif',
       tip: 'hello.gif',
-    })
-  }
-  
-  function onFileChatClick(e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, filename: string) {
-    if(!inWails) return
-
-    e.preventDefault()
-    BrowserOpenURL(filename === 'hello.gif' ? `http://${BASE_URL}/z/${filename}` : `http://${BASE_URL}/api/File/${filename}`)
+    }))
   }
 
   return <div className="flex-auto w-full chatarea text-black dark:text-white pt-2" ref={chatAreaRef}>
@@ -64,13 +55,9 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
             ? 
             <TextChat key={msg.id} msg={msg} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto'].join(' ')} />
             :
-            <a
-              onClick={(e) => onFileChatClick(e, msg.value)}
-              href={msg.value} target='_blank'
-              key={msg.id} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}
-            >
+            <FileLink url={msg.value} key={msg.id} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}>
               <FileChat msg={msg} />
-            </a>
+            </FileLink>
           })
         }
       </div>

@@ -14,8 +14,12 @@ export function App() {
   const { wsState, setWsState, messages, setMessages } = useWsStore()
 
   const onMessage = (e: MessageEvent) => {
-    const msg: Message = JSON.parse(e.data)
-    setMessages(msg)
+    try {
+      const msg: Message = JSON.parse(e.data)
+      setMessages(msg)
+    } catch (error) {
+      console.log(`msg parse error: ${error}`)
+    }
   }
   const onOpen = () => {
     setWsState(WebSocketState.Open)

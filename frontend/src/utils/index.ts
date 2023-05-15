@@ -1,6 +1,9 @@
 import { nanoid } from 'nanoid'
 import { ParallelHasher } from 'ts-md5'
 import hashWorkerJs from 'ts-md5/dist/md5_worker?url'
+import axios from 'axios'
+import { BASE_URL, USRID } from '@/const'
+import { Message } from '@/types'
 
 export const genMsgId = () => nanoid(10)
 
@@ -10,7 +13,29 @@ export const hasher = async (file: File) => {
     hashWorker = new ParallelHasher(hashWorkerJs)
   }
 
-  return await hashWorker.hash(file)
+  return await hashWorker.hash(file) as string
+}
+
+export const genFilePath = (file: string): string => `http://${BASE_URL}/api/File/${file}`
+
+export const genTextMsg = (value: string): Message => {
+  return {
+    id: genMsgId(),
+    sender: USRID,
+    type: 'text',
+    value,
+  }
+}
+
+export const genFileMsg = ({ file, fileType, tip }: { file: string, fileType: string, tip: string }): Message => {
+  return {
+    id: genMsgId(),
+    sender: USRID,
+    type: 'file',
+    value: file === 'hello.gif' ? file : genFilePath(file),
+    fileType,
+    tip,
+  }
 }
 
 export const generateSvgPath = (modules: boolean[][], thinkness: number = 0): string => {
@@ -55,4 +80,22 @@ export const generateSvgPath = (modules: boolean[][], thinkness: number = 0): st
     })
   })
   return ops.join('')
+}
+
+const http = axios.create({
+  baseURL: `http://${BASE_URL}/api`,
+})
+
+export const checkFile = async (paylod: { hash: string, fileName:string }) => {
+  const res = await http.get<{ exist: boolean, file: string, chunks: number[] }>('/CheckFile', {
+    params: paylod,
+  })
+
+  return res.data
+}
+
+export const uploadFile = async (paylod: FormData) => {
+  const res = await http.post<{ file: string }>('/File', paylod)
+
+  return res.data
 }
