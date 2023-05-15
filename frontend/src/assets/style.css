@@ -4,6 +4,25 @@ html, body, #goseph {
   overflow: hidden;
   --wails-draggable: drag;
 }
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 6px;
+}
+:hover::-webkit-scrollbar-thumb {
+  @apply bg-gray-500/20;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500/50;
+}
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 .drag {
   --wails-draggable: drag;
 }
@@ -24,25 +43,6 @@ input, button {
 }
 .chatarea {
   overflow: overlay;
-}
-::-webkit-scrollbar {
-  background-color: transparent;
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  border-radius: 6px;
-}
-:hover::-webkit-scrollbar-thumb {
-  @apply bg-gray-500/20;
-}
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500/50;
-}
-::-webkit-scrollbar-corner,
-::-webkit-scrollbar-track {
-  background: transparent;
 }
 
 .addr-panel {

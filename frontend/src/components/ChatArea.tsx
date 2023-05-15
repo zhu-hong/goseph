@@ -50,7 +50,7 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
     if(!inWails) return
 
     e.preventDefault()
-    BrowserOpenURL(filename === 'hello.gif' ? `http://${BASE_URL}/z/${filename}` : `http://${BASE_URL}/api/v1/File/${filename}`)
+    BrowserOpenURL(filename === 'hello.gif' ? `http://${BASE_URL}/z/${filename}` : `http://${BASE_URL}/api/File/${filename}`)
   }
 
   return <div className="flex-auto w-full chatarea text-black dark:text-white pt-2" ref={chatAreaRef}>

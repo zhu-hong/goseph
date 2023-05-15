@@ -48,7 +48,7 @@ export function App() {
   async function initWS() {
     setWsState(WebSocketState.Connecting)
     if(ws === null || wsState === WebSocketState.Close) {
-      ws = new WebSocket(`ws://${BASE_URL}/api/v1/WS`)
+      ws = new WebSocket(`ws://${BASE_URL}/api/WS`)
     }
     ws.addEventListener('open', onOpen)
     ws.addEventListener('close', onClose)

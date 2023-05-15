@@ -3,6 +3,7 @@ import { genMsgId } from '@/utils'
 import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef } from 'react'
 import { CHUNK_SIZE, USRID } from '@/const'
 import { useWsStore } from '@/store';
+import { hasher } from '@/utils';
 
 interface ChatInputProps {
   onSend: (message: Message) => void
@@ -14,28 +15,32 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
   const [text, setText] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
-  const uploadRef = useRef<HTMLInputElement>(null)
 
   function onTextChange(e: ChangeEvent<HTMLInputElement>) {
     setText(e.target.value)
   }
 
   function onFileChange(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
+    const files = e.target.files
 
-    if(!file) return
+    if(files?.length === 0) return
 
+    Array.from(files!).forEach(async (file) => {
+      if(file.size <= CHUNK_SIZE) {
+        uploadSingleFile(file)
+      } else {
+        
+      }
+    })
+    
     e.target.value = ''
-
-    const msgId = genMsgId()
-
-    if(file.size <= CHUNK_SIZE) {
-      uploadCompleteFile(file)
-      return
-    }
   }
 
-  async function uploadCompleteFile(file: File) {
+  async function uploadSingleFile(file: File) {
+    const hash = await hasher(file)
+  }
+
+  async function uploadSplitFile(file: File) {
   }
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -55,10 +60,6 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
   const disabled = useMemo(() => {
     return text.length === 0 || wsState !== WebSocketState.Open
   }, [text.length, wsState])
-
-  function onApplyUpload() {
-    uploadRef.current?.click()
-  }
 
   useEffect(() => {
     const focusInput = (e: KeyboardEvent) => {
@@ -100,19 +101,20 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
       id="upload"
       name="upload"
       type="file"
-      ref={uploadRef}
       disabled={wsState !== WebSocketState.Open} onChange={onFileChange}
       className='hidden'
       placeholder='👍🫲'
       title='file'
+      multiple={true}
     />
-    <button
-      disabled={wsState !== WebSocketState.Open}
-      title='选择文件' type='button'
-      className="flex-none w-48px h-48px ml-2 rounded-full grid place-items-center text-gray-700 dark:text-gray-400 transition not-disabled:hover:(bg-white cursor-pointer text-rose-400 dark:bg-black)"
-      onClick={onApplyUpload}
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" className='transform rotate-35' width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
-    </button>
+      <button
+        disabled={wsState !== WebSocketState.Open}
+        title='选择文件' type='button'
+        className="flex-none w-48px ml-2 h-48px rounded-full grid place-items-center text-gray-700 dark:text-gray-400 transition not-disabled:hover:(bg-white cursor-pointer text-rose-400 dark:bg-black)"
+      >
+        <label htmlFor="upload" className='w-full h-full grid place-items-center'>
+          <svg xmlns="http://www.w3.org/2000/svg" className='transform rotate-35' width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>
+        </label>
+      </button>
   </div>
 }

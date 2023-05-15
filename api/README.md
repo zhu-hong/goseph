@@ -1,4 +1,4 @@
-# api/v1 接口说明
+# api 接口说明
 
 ## CheckFile（GET）
 

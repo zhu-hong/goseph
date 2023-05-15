@@ -30,7 +30,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	wsHub := NewHub()
 	go wsHub.Run()
 
-	router := engine.Group("api/v1")
+	router := engine.Group("/api")
 	{
 		// websocket服务
 		router.GET("WS", func(ctx *gin.Context) {
