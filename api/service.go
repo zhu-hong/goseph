@@ -99,12 +99,29 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 
 		// 上传文件
 		router.POST("File", func(ctx *gin.Context) {
-			file, _ := ctx.FormFile("file")
+			file, err := ctx.FormFile("file")
+
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, gin.H{
+					"message": err.Error(),
+				})
+				return
+			}
+
+			hash := ctx.Request.FormValue("hash")
+
+			if len(hash) == 0 {
+				ctx.JSON(http.StatusBadRequest, gin.H{
+					"message": "未提供hash值",
+				})
+				return
+			}
+
 			index := ctx.Request.FormValue("index")
 
 			// 上传了整个文件
 			if len(index) == 0 {
-				savePath := filepath.Join(exedir, "files", ctx.Request.FormValue("hash")+filepath.Ext(file.Filename))
+				savePath := filepath.Join(exedir, "files", hash+filepath.Ext(file.Filename))
 
 				err := os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm)
 				if err != nil {
@@ -123,13 +140,20 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				}
 
 				ctx.JSON(http.StatusOK, gin.H{
-					"file": ctx.Request.FormValue("hash") + filepath.Ext(file.Filename),
+					"file": hash + filepath.Ext(file.Filename),
+				})
+				return
+			}
+
+			if len(index) == 0 {
+				ctx.JSON(http.StatusBadRequest, gin.H{
+					"message": "未提供文件分片索引",
 				})
 				return
 			}
 
 			// 文件碎片目录
-			err := os.MkdirAll(filepath.Join(exedir, "temp", ctx.Request.FormValue("hash")), os.ModePerm)
+			err = os.MkdirAll(filepath.Join(exedir, "temp", hash), os.ModePerm)
 			if err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"message": err.Error(),
@@ -137,7 +161,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				return
 			}
 			// 文件碎片保存路径
-			savePath := filepath.Join(exedir, "temp", ctx.Request.FormValue("hash"), index)
+			savePath := filepath.Join(exedir, "temp", hash, index)
 
 			err = ctx.SaveUploadedFile(file, savePath)
 			if err != nil {
