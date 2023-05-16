@@ -55,10 +55,8 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			hash := paylod.Hash
 			savePath := filepath.Join(exedir, "files", hash+filepath.Ext(paylod.FileName))
 
-			_, err := os.Stat(savePath)
-
 			// 存在这个文件了
-			if err == nil {
+			if _, err := os.Stat(savePath); err == nil {
 				ctx.JSON(http.StatusOK, gin.H{
 					"exist":  true,
 					"chunks": []string{},
@@ -69,10 +67,9 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 
 			// 查看有没有切片
 			chunksPath := filepath.Join(exedir, "temp", hash)
-			_, err = os.Stat(chunksPath)
 
 			// 存在切片
-			if err == nil {
+			if _, err := os.Stat(chunksPath); err == nil {
 				files, _ := os.ReadDir(chunksPath)
 
 				chunks := []int{}
@@ -123,16 +120,14 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			if len(index) == 0 {
 				savePath := filepath.Join(exedir, "files", hash+filepath.Ext(file.Filename))
 
-				err := os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm)
-				if err != nil {
+				if err := os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm); err != nil {
 					ctx.JSON(http.StatusInternalServerError, gin.H{
 						"message": err.Error(),
 					})
 					return
 				}
 
-				err = ctx.SaveUploadedFile(file, savePath)
-				if err != nil {
+				if err := ctx.SaveUploadedFile(file, savePath); err != nil {
 					ctx.JSON(http.StatusInternalServerError, gin.H{
 						"message": err.Error(),
 					})
@@ -153,8 +148,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			}
 
 			// 文件碎片目录
-			err = os.MkdirAll(filepath.Join(exedir, "temp", hash), os.ModePerm)
-			if err != nil {
+			if err := os.MkdirAll(filepath.Join(exedir, "temp", hash), os.ModePerm); err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"message": err.Error(),
 				})
@@ -163,8 +157,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			// 文件碎片保存路径
 			savePath := filepath.Join(exedir, "temp", hash, index)
 
-			err = ctx.SaveUploadedFile(file, savePath)
-			if err != nil {
+			if err := ctx.SaveUploadedFile(file, savePath); err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"message": err.Error(),
 				})
@@ -193,17 +186,15 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 
 			mergePath := filepath.Join(exedir, "temp", paylod.Hash)
 
-			_, err := os.Stat(mergePath)
 			// 没有这个合集
-			if err != nil {
+			if _, err := os.Stat(mergePath); err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"message": "没找到文件碎片文件夹",
 				})
 				return
 			}
 
-			err = os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm)
-			if err != nil {
+			if err := os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm); err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"message": "文件保存文件夹创建失败",
 				})
@@ -249,8 +240,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				}
 				defer file.Close()
 
-				_, err = io.Copy(finFile, file)
-				if err != nil {
+				if _, err := io.Copy(finFile, file); err != nil {
 					ctx.JSON(http.StatusInternalServerError, gin.H{
 						"message": "文件碎片" + paylod.FileName + f.Name() + "合并失败",
 					})
@@ -269,8 +259,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			if name := ctx.Param("name"); name != "" {
 				file := filepath.Join(exedir, "files", name)
 
-				_, err := os.Stat(file)
-				if err != nil {
+				if _, err := os.Stat(file); err != nil {
 					ctx.Status(http.StatusNotFound)
 					return
 				}
@@ -285,5 +274,5 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 		})
 	}
 
-	engine.Run("0.0.0.0:12138")
+	engine.Run(":12138")
 }
