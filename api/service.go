@@ -123,7 +123,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				}
 
 				ctx.JSON(http.StatusOK, gin.H{
-					"file": ctx.Request.FormValue("hash") + filepath.Ext(ctx.Request.FormValue("fileName")),
+					"file": ctx.Request.FormValue("hash") + filepath.Ext(file.Filename),
 				})
 				return
 			}
