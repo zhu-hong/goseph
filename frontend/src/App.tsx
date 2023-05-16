@@ -18,7 +18,7 @@ export function App() {
       const msg: Message = JSON.parse(e.data)
       setMessages(msg)
     } catch (error) {
-      console.log(`msg parse error: ${error}`)
+      console.error(`msg parse error: ${error}`)
     }
   }
   const onOpen = () => {
@@ -86,7 +86,7 @@ export function App() {
   }
 
   return <div
-    className="w-full h-full overflow-hidden flex flex-col items-center mx-auto pb-4 lt-sm:pb-2"
+    className="w-full h-full overflow-hidden mx-auto"
   >
     <LocalAddr />
     <WsState onReconnect={initWS} />

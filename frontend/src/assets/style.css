@@ -36,13 +36,28 @@ input {
   }
 }
 input, button {
+  label {
+    cursor: pointer;
+  }
   &:disabled {
     --wails-draggable: drag;
     cursor: not-allowed;
+    label {
+      cursor: not-allowed;
+    }
   }
 }
-.chatarea {
-  overflow: overlay;
+
+.chat {
+  &area {
+    overflow: overlay;
+  }
+  &-form {
+    @apply  bg-transparent transition;
+    &:focus-within {
+      @apply bg-gray-100 dark:bg-dark-700;
+    }
+  }
 }
 
 .addr-panel {

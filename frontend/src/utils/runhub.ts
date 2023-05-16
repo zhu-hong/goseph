@@ -26,9 +26,9 @@ export const createRunhub = (concurrency = 5) => {
     while(running.length < concurrency && tasks.length > 0) {
       const func = tasks.shift()!
       running.push(func)
-      console.log('添加一个任务', `${running.length}个任务正在运行`, `${tasks.length}个任务正在等待`)
-
       const res = func()
+
+      console.log('一个任务开始运行', `${running.length}个任务正在运行`, `${tasks.length}个任务正在等待`)
 
       if(res instanceof Promise) {
         res.finally(() => {
