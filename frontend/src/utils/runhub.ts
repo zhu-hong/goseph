@@ -1,4 +1,4 @@
-type Task<TReturn = any> = (() => Promise<TReturn>) | (() => TReturn)
+type Task<T = any> = (() => Promise<T>) | (() => T)
 
 export const createRunhub = (concurrency = 5) => {
   const tasks: Array<Task> = []
@@ -14,31 +14,20 @@ export const createRunhub = (concurrency = 5) => {
 
   function next() {
     // 正是最大运行数/没有等待中的任务
-    if(running.length === concurrency) {
-      console.log('达到最大运行')
-      return
-    }
-    if(tasks.length === 0) {
-      console.log('没有等待中的任务')
-      return
-    }
+    if(running.length === concurrency || (tasks.length === 0)) return
 
     while(running.length < concurrency && tasks.length > 0) {
       const func = tasks.shift()!
       running.push(func)
       const res = func()
 
-      console.log('一个任务开始运行', `${running.length}个任务正在运行`, `${tasks.length}个任务正在等待`)
-
       if(res instanceof Promise) {
         res.finally(() => {
           running.splice(running.findIndex((f) => f === func) , 1)
-          console.log('一个任务完成', `还剩${running.length}个任务`)
           next()
         })
       } else {
         running.splice(running.findIndex((f) => f === func) , 1)
-        console.log('一个任务完成', `还剩${running.length}个任务`)
         next()
       }
     }

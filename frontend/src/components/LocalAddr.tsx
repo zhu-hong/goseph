@@ -45,7 +45,7 @@ export const LocalAddr = () => {
     setSvgPath(genSvgQrPath(modules, 1))
   }, [localAddr])
 
-  return <div className="absolute top-0 right-36px w-36px h-36px addr-panel nodrag" onClick={(e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
+  return <div className="w-36px h-36px addr-panel nodrag relative" onClick={(e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
     e.stopPropagation()
   }} >
     <div title="局域网地址" onClick={() => setShowQr(!showQr)} className="absolute top-0 right-0 p-2 text-xl text-gray-400 cursor-pointer rounded-full transition active:(bg-light dark:bg-dark)"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M1 1h10v10H1V1zm2 2v6h6V3H3z"></path><path fill="currentColor" fillRule="evenodd" d="M5 5h2v2H5z"></path><path fill="currentColor" d="M13 1h10v10H13V1zm2 2v6h6V3h-6z"></path><path fill="currentColor" fillRule="evenodd" d="M17 5h2v2h-2z"></path><path fill="currentColor" d="M1 13h10v10H1V13zm2 2v6h6v-6H3z"></path><path fill="currentColor" fillRule="evenodd" d="M5 17h2v2H5z"></path><path fill="currentColor" d="M23 19h-4v4h-6V13h1h-1v6h2v2h2v-6h-2v-2h-1h3v2h2v2h2v-4h2v6zm0 2v2h-2v-2h2z"></path></svg></div>

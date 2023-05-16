@@ -1,21 +1,21 @@
 import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
-import { MouseEvent, FC, PropsWithChildren } from 'react'
+import { type MouseEvent, type FC, type PropsWithChildren, useCallback } from 'react'
 
-interface FileLinkProps extends PropsWithChildren {
+type FileLinkProps = PropsWithChildren<{
   url: string
   [x: string]: any
-}
-
-function onClick(e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, url: string) {
-  if(!inWails) return
-
-  e.preventDefault()
-
-  BrowserOpenURL(url)
-}
+}>
 
 export const FileLink: FC<FileLinkProps> = ({ url, children, ...rest }) => {
-  return <a target='_blank' href={url} {...rest} onClick={(e) => onClick(e, url)}>
+  const onClick = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
+    if(!inWails) return
+
+    e.preventDefault()
+
+    BrowserOpenURL(url)
+  }, [url])
+
+  return <a target='_blank' href={url} {...rest} onClick={onClick}>
     {
       children
     }

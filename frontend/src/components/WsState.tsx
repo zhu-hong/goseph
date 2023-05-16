@@ -21,7 +21,7 @@ export const WsState: FC<{ onReconnect: () => void }> = ({ onReconnect }) => {
     onReconnect()
   }
   return <div
-    className='absolute top-0 right-0 p-2 hover:opacity-80 transition text-xl'
+    className='p-2 hover:opacity-80 transition text-xl'
     title={['websocket连接中🎯','websocket已连接✅','websocket失联💣点击尝试重连'][wsState]}
     onClick={() => onWsStateClick(wsState)}
   >

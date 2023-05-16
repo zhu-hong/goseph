@@ -88,8 +88,11 @@ export function App() {
   return <div
     className="w-full h-full overflow-hidden mx-auto"
   >
-    <LocalAddr />
-    <WsState onReconnect={initWS} />
+    <div className='fixed top-0 right-0 flex items-center'>
+      <LocalAddr />
+      <WsState onReconnect={initWS} />
+    </div>
+
     <ChatArea onSend={onSend} />
     <ChatInput onSend={onSend}  />
   </div>
