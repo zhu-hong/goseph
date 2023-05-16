@@ -1,7 +1,7 @@
 import { GetIPs, GetMaybeLocalIP } from '@wailsjs/go/main/App'
 import { MouseEvent, useEffect, useMemo, useRef, useState } from 'react'
 import qrcodegen from '@/utils/qrcodegen'
-import { generateSvgPath } from '@/utils'
+import { genSvgQrPath } from '@/utils'
 import { CSSTransition } from 'react-transition-group'
 import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
 
@@ -42,7 +42,7 @@ export const LocalAddr = () => {
 
     const modules = qrcodegen.QrCode.encodeText(localAddr, qrcodegen.QrCode.Ecc.HIGH).getModules()
     setQrViewBoxSize(modules.length+2)
-    setSvgPath(generateSvgPath(modules, 1))
+    setSvgPath(genSvgQrPath(modules, 1))
   }, [localAddr])
 
   return <div className="absolute top-0 right-36px w-36px h-36px addr-panel nodrag" onClick={(e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {

@@ -8,7 +8,7 @@ import { Message } from '@/types'
 export const genMsgId = () => nanoid(10)
 
 let hashWorker: ParallelHasher | null = null
-export const hasher = async (file: File) => {
+export const hasher = async (file: Blob) => {
   if(hashWorker === null) {
     hashWorker = new ParallelHasher(hashWorkerJs)
   }
@@ -38,7 +38,7 @@ export const genFileMsg = ({ file, fileType, tip }: { file: string, fileType: st
   }
 }
 
-export const generateSvgPath = (modules: boolean[][], thinkness: number = 0): string => {
+export const genSvgQrPath = (modules: boolean[][], thinkness: number = 0): string => {
   const ops: string[] = []
   modules.forEach((row, y) => {
     let start: number | null = null
@@ -97,5 +97,11 @@ export const checkFile = async (paylod: { hash: string, fileName:string }) => {
 export const uploadFile = async (paylod: FormData) => {
   const res = await http.post<{ file: string }>('/File', paylod)
 
+  return res.data
+}
+
+export const mergeFile = async (paylod: { hash: string, fileName: string }) => {
+  const res = await http.post<{ file: string }>('/MergeFile', paylod)
+  
   return res.data
 }

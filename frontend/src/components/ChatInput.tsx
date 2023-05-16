@@ -2,8 +2,9 @@ import { Message, WebSocketState } from '@/types'
 import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef, type ClipboardEvent } from 'react'
 import { CHUNK_SIZE } from '@/const'
 import { useWsStore } from '@/store';
-import { hasher, checkFile, uploadFile, genTextMsg, genFileMsg } from '@/utils';
+import { hasher, checkFile, uploadFile, genTextMsg, genFileMsg, mergeFile } from '@/utils';
 import { createRunhub } from '@/utils/runhub'
+import pLimit from 'p-limit'
 
 const enqueue = createRunhub()
 
@@ -37,7 +38,7 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
       if(file.size <= CHUNK_SIZE) {
         enqueue(async () => await uploadSingleFile(file))
       } else {
-        
+        enqueue(async () => await uploadSplitFile(file))
       }
     })
   }
@@ -56,22 +57,81 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend }) => {
         file: checkRes.file,
         tip: file.name,
       }))
-    } else {
-      const fd = new FormData()
-      fd.append('file', file)
-      fd.append('hash', hash)
-      fd.append('fileName', file.name)
-      const ulRes = await uploadFile(fd)
-
-      onSend(genFileMsg({
-        fileType: file.type,
-        file: ulRes.file,
-        tip: file.name,
-      }))
+      return
     }
+
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('hash', hash)
+    const ulRes = await uploadFile(fd)
+
+    onSend(genFileMsg({
+      fileType: file.type,
+      file: ulRes.file,
+      tip: file.name,
+    }))
   }
 
   async function uploadSplitFile(file: File) {
+    const chunksCount = Math.ceil(file.size / CHUNK_SIZE)
+    const chunks = []
+    const chunksForHash = []
+
+    for (let index = 0; index < chunksCount; index++) {
+      const chunk = file.slice(CHUNK_SIZE * index, CHUNK_SIZE * (index + 1), file.type)
+      chunks.push(chunk)
+      if (index === 0 || index === chunksCount - 1) {
+        chunksForHash.push(chunk)
+      } else {
+        let center = Math.ceil(chunk.size / 2)
+        chunksForHash.push(chunk.slice(0, 1024 * 2, file.type))
+        chunksForHash.push(chunk.slice(center - 1024, center + 1024, file.type))
+        chunksForHash.push(chunk.slice(chunk.size - 1024 * 2, chunk.length, file.type))
+      }
+    }
+
+    const hash = await hasher(new Blob(chunksForHash))
+
+    const checkRes = await checkFile({
+      hash,
+      fileName: file.name,
+    })
+
+    if(checkRes.exist) {
+      onSend(genFileMsg({
+        fileType: file.type,
+        file: checkRes.file,
+        tip: file.name,
+      }))
+      return
+    }
+
+    const limit = pLimit(5)
+    const reqs = chunks.map((chunk, index) => {
+      if(checkRes.chunks.includes(index)) return Promise.resolve('')
+
+      return limit(async () => {
+        const fd = new FormData()
+        fd.append('file', chunk)
+        fd.append('hash', hash)
+        fd.append('index', index.toString())
+
+        await uploadFile(fd)
+      })
+    })
+
+    await Promise.all(reqs)
+
+    const { file: fileName } = await mergeFile({
+      hash,
+      fileName: file.name,
+    })
+
+    onSend(genFileMsg({
+      file: fileName,
+      fileType: file.type,
+      tip: file.name,
+    }))
   }
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
