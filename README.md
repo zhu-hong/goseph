@@ -7,3 +7,7 @@
 ![goseph introduce](./goseph.png)
 
 ## 学到的东西
+
++ golang
+  + 文件（夹）的操作
+  + go，defer等特性
