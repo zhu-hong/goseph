@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { ChatInput } from './components/ChatInput'
 import { BASE_URL } from '@/const'
 import { ChatArea } from './components/ChatArea'
@@ -11,11 +11,15 @@ let ws: WebSocket | null = null
 let delayCloseState: unknown = null
 
 export function App() {
-  const { wsState, setWsState, messages, setMessages } = useWsStore()
+  const { wsState, setWsState, setMessages } = useWsStore()
 
   const onMessage = (e: MessageEvent) => {
-    const msg: Message = JSON.parse(e.data)
-    setMessages(msg)
+    try {
+      const msg: Message = JSON.parse(e.data)
+      setMessages(msg)
+    } catch (error) {
+      console.error(`msg parse error: ${error}`)
+    }
   }
   const onOpen = () => {
     setWsState(WebSocketState.Open)
@@ -42,13 +46,13 @@ export function App() {
     }, 1500)
   }
   const onError = (error: Event) => {
-    console.error(error)
+    console.error(`websocket error: `, error)
   }
 
   async function initWS() {
     setWsState(WebSocketState.Connecting)
     if(ws === null || wsState === WebSocketState.Close) {
-      ws = new WebSocket(`ws://${BASE_URL}/api/v1/WS`)
+      ws = new WebSocket(`ws://${BASE_URL}/api/WS`)
     }
     ws.addEventListener('open', onOpen)
     ws.addEventListener('close', onClose)
@@ -82,7 +86,7 @@ export function App() {
   }
 
   return <div
-    className="w-full h-full overflow-hidden flex flex-col items-center mx-auto pb-4 lt-sm:pb-2"
+    className="w-full h-full overflow-hidden mx-auto"
   >
     <LocalAddr />
     <WsState onReconnect={initWS} />

@@ -4,27 +4,6 @@ html, body, #goseph {
   overflow: hidden;
   --wails-draggable: drag;
 }
-.drag {
-  --wails-draggable: drag;
-}
-.nodrag {
-  --wails-draggable: no-drag;
-}
-input {
-  --wails-draggable: no-drag;
-  &:disabled {
-    --wails-draggable: drag;
-  }
-}
-input, button {
-  &:disabled {
-    --wails-draggable: drag;
-    cursor: not-allowed;
-  }
-}
-.chatarea {
-  overflow: overlay;
-}
 ::-webkit-scrollbar {
   background-color: transparent;
   width: 6px;
@@ -43,6 +22,42 @@ input, button {
 ::-webkit-scrollbar-corner,
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+.drag {
+  --wails-draggable: drag;
+}
+.nodrag {
+  --wails-draggable: no-drag;
+}
+input {
+  --wails-draggable: no-drag;
+  &:disabled {
+    --wails-draggable: drag;
+  }
+}
+input, button {
+  label {
+    cursor: pointer;
+  }
+  &:disabled {
+    --wails-draggable: drag;
+    cursor: not-allowed;
+    label {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.chat {
+  &area {
+    overflow: overlay;
+  }
+  &-form {
+    @apply  bg-transparent transition;
+    &:focus-within {
+      @apply bg-gray-100 dark:bg-dark-700;
+    }
+  }
 }
 
 .addr-panel {

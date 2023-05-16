@@ -1,15 +1,17 @@
-import { useMemo, MouseEvent, FC, useEffect, useRef } from 'react'
+import { useMemo, FC, useEffect, useRef } from 'react'
 import { Message } from '@/types'
 import { TextChat } from './TextChat'
-import { genMsgId } from '@/utils'
+import { genFileMsg, genFilePath } from '@/utils'
 import { BASE_URL, USRID } from '@/const'
 import { FileChat } from './FileChat'
-import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
 import { useWsStore } from '@/store'
+import { FileLink } from './FileLink'
 
 interface ChatAreaProps {
   onSend: (message: Message) => void
 }
+
+let scrollTimeout: unknown = null
 
 export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
   const { messages } = useWsStore()
@@ -21,39 +23,45 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
       return {
         ...m,
         self: m.sender === USRID,
+        url: m.type === 'text' ? '' : m.value === 'hello.gif' ? `http://${BASE_URL}/z/hello.gif` : genFilePath(m.value),
       }
     })
   }, [messages])
 
   // 收到一条新消息，滑到底部
   useEffect(() => {
-    const wrapper = chatAreaRef.current?.children[0]?.children
-    wrapper?.[wrapper?.length-1]?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'end',
-    })
+    if(scrollTimeout !== null) {
+      clearTimeout(scrollTimeout as number)
+      scrollTimeout = null
+    }
+    scrollTimeout = setTimeout(() => {
+      const wrapper = chatAreaRef.current?.children[0]?.children
+      wrapper?.[wrapper?.length-1]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      })
+      clearTimeout(scrollTimeout as number)
+      scrollTimeout = null
+    }, 200)
+
+    return () => {
+      if(scrollTimeout === null) return
+
+      clearTimeout(scrollTimeout as number)
+      scrollTimeout = null
+    }
   }, [messages])
 
   function sendHello() {
-    onSend({
-      id: genMsgId(),
-      sender: USRID,
-      type: 'file',
-      value: 'hello.gif',
+    onSend(genFileMsg({
+      file: 'hello.gif',
       fileType: 'image/gif',
       tip: 'hello.gif',
-    })
-  }
-  
-  function onFileChatClick(e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, filename: string) {
-    if(!inWails) return
-
-    e.preventDefault()
-    BrowserOpenURL(filename === 'hello.gif' ? `http://${BASE_URL}/z/${filename}` : `http://${BASE_URL}/api/v1/File/${filename}`)
+    }))
   }
 
-  return <div className="flex-auto w-full chatarea text-black dark:text-white pt-2" ref={chatAreaRef}>
+  return <div className="w-full h-full chatarea text-black dark:text-white pt-2" ref={chatAreaRef}>
     {
       msgs.length > 0
       ?
@@ -64,15 +72,13 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
             ? 
             <TextChat key={msg.id} msg={msg} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto'].join(' ')} />
             :
-            <a
-              onClick={(e) => onFileChatClick(e, msg.value)}
-              href={msg.value} target='_blank'
-              key={msg.id} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}
-            >
+            <FileLink url={msg.url} key={msg.id} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}>
               <FileChat msg={msg} />
-            </a>
+            </FileLink>
           })
         }
+        {/* chatinput placeholder */}
+        <div className='h-64px flex-none'></div>
       </div>
       :
       <div className='w-full h-full flex flex-col justify-center items-center'>

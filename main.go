@@ -15,7 +15,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options/windows"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 
-	v1 "goseph/api/v1"
+	api "goseph/api"
 )
 
 //go:embed all:frontend/dist
@@ -48,7 +48,7 @@ func main() {
 			gin.SetMode(gin.ReleaseMode)
 			engine := gin.Default()
 			engine.SetTrustedProxies(nil)
-			v1.RunService(assets, engine)
+			api.RunService(assets, engine)
 
 			app.startup(ctx)
 		},

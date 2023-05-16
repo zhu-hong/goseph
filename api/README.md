@@ -1,4 +1,4 @@
-# api/v1 接口说明
+# api 接口说明
 
 ## CheckFile（GET）
 
@@ -43,7 +43,6 @@
 const fd = new FormData()
 fd.append('file', chunk) // 文件（分片）
 fd.append('hash', hash) // 文件hash值（整个文件）
-fd.append('fileName', file.name) // 文件名
 fd.append('index', index) // 分片索引（0开始），不传表示为整文件
 ```
 
