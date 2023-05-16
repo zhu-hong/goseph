@@ -1,10 +1,9 @@
-import { useMemo, MouseEvent, FC, useEffect, useRef } from 'react'
+import { useMemo, FC, useEffect, useRef } from 'react'
 import { Message } from '@/types'
 import { TextChat } from './TextChat'
 import { genFileMsg, genFilePath } from '@/utils'
 import { BASE_URL, USRID } from '@/const'
 import { FileChat } from './FileChat'
-import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
 import { useWsStore } from '@/store'
 import { FileLink } from './FileLink'
 
@@ -22,6 +21,7 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
       return {
         ...m,
         self: m.sender === USRID,
+        url: m.type === 'text' ? '' : m.value === 'hello.gif' ? `http://${BASE_URL}/z/hello.gif` : genFilePath(m.value),
       }
     })
   }, [messages])
@@ -55,7 +55,7 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend }) => {
             ? 
             <TextChat key={msg.id} msg={msg} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto'].join(' ')} />
             :
-            <FileLink url={msg.value} key={msg.id} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}>
+            <FileLink url={msg.url} key={msg.id} className={[msg.self ? 'self-end mr-1 ml-10' : 'self-start mr-10 ml-1', 'not-last:mb-4 first:mt-auto nodrag'].join(' ')}>
               <FileChat msg={msg} />
             </FileLink>
           })

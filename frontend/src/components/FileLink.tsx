@@ -1,6 +1,5 @@
-import { BASE_URL } from '@/const'
 import { BrowserOpenURL } from '@wailsjs/runtime/runtime'
-import type { MouseEvent, FC, PropsWithChildren } from 'react'
+import { MouseEvent, FC, PropsWithChildren } from 'react'
 
 interface FileLinkProps extends PropsWithChildren {
   url: string
@@ -11,7 +10,8 @@ function onClick(e: MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>, url: s
   if(!inWails) return
 
   e.preventDefault()
-  BrowserOpenURL(url === 'hello.gif' ? `http://${BASE_URL}/z/${url}` : url)
+
+  BrowserOpenURL(url)
 }
 
 export const FileLink: FC<FileLinkProps> = ({ url, children, ...rest }) => {

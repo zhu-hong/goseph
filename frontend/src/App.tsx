@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import { ChatInput } from './components/ChatInput'
 import { BASE_URL } from '@/const'
 import { ChatArea } from './components/ChatArea'
@@ -11,7 +11,7 @@ let ws: WebSocket | null = null
 let delayCloseState: unknown = null
 
 export function App() {
-  const { wsState, setWsState, messages, setMessages } = useWsStore()
+  const { wsState, setWsState, setMessages } = useWsStore()
 
   const onMessage = (e: MessageEvent) => {
     try {
@@ -46,7 +46,7 @@ export function App() {
     }, 1500)
   }
   const onError = (error: Event) => {
-    console.error(error)
+    console.error(`websocket error: `, error)
   }
 
   async function initWS() {

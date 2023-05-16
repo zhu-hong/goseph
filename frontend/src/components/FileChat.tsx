@@ -1,5 +1,5 @@
 import { Message } from '@/types'
-import type { FC } from 'react'
+import { FC } from 'react'
 
 function buildIcon(type: string) {
   if(type.startsWith('audio')) {
@@ -23,16 +23,16 @@ function buildIcon(type: string) {
   return <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32"><circle cx="11" cy="15.5" r="1.5" fill="currentColor"></circle><path fill="currentColor" d="M12 12h-2V8h2a2 2 0 0 0 0-4h-2a2.002 2.002 0 0 0-2 2v.5H6V6a4.005 4.005 0 0 1 4-4h2a4 4 0 0 1 0 8Z"></path><path fill="currentColor" d="M22.448 21.034a10.971 10.971 0 0 0-2.527-16.29l-.999 1.73A8.997 8.997 0 1 1 5 14H3a10.992 10.992 0 0 0 18.034 8.448L28.586 30L30 28.586Z"></path></svg>
 }
 
-export const FileChat: FC<{ msg: Message; className?: string }> = ({ msg, className }) => {
-  if(msg.fileType?.startsWith('image')) {
-    return <img src={msg.value} alt={msg.tip} title={msg.tip} className={[className, 'max-w-208px'].join(' ').trim()} />
+export const FileChat: FC<{ msg: Message & { url: string }; className?: string }> = ({ msg, className }) => {
+  if(!msg.fileType?.startsWith('image')) {
+    return <div className={[className, 'nodrag bg-white dark:bg-black px-4 py-2 rounded flex justify-between items-center gap-2'].join(' ').trim()}>
+      <div className='flex-none text-3xl cursor-default' onClick={(e) => e.preventDefault()}>{ buildIcon(msg.fileType!) }</div>
+      <span className='underline underline-current hover:text-rose-400 transition' style={{
+        'lineBreak': 'anywhere',
+        'textUnderlineOffset': '.25rem',
+      }}>{msg.tip}</span>
+    </div>
   }
 
-  return <div className={[className, 'nodrag bg-white dark:bg-black px-4 py-2 rounded flex justify-between items-center gap-2'].join(' ').trim()}>
-    <div className='flex-none text-3xl cursor-default' onClick={(e) => e.preventDefault()}>{ buildIcon(msg.fileType!) }</div>
-    <span className='underline underline-current hover:text-rose-400 transition' style={{
-      'lineBreak': 'anywhere',
-      'textUnderlineOffset': '.25rem',
-    }}>{msg.tip}</span>
-  </div>
+  return <img src={msg.url} alt={msg.tip} title={msg.tip} className={[className].join(' ').trim()} />
 }

@@ -1,8 +1,8 @@
 import { Message, WebSocketState } from '@/types'
 import { useState, type ChangeEvent, type FC, type FormEvent, useEffect, useMemo, useRef, type ClipboardEvent } from 'react'
-import { BASE_URL, CHUNK_SIZE, USRID } from '@/const'
+import { CHUNK_SIZE } from '@/const'
 import { useWsStore } from '@/store';
-import { hasher, checkFile, genMsgId, uploadFile, genTextMsg, genFileMsg } from '@/utils';
+import { hasher, checkFile, uploadFile, genTextMsg, genFileMsg } from '@/utils';
 
 interface ChatInputProps {
   onSend: (message: Message) => void

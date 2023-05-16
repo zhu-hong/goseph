@@ -32,7 +32,7 @@ export const genFileMsg = ({ file, fileType, tip }: { file: string, fileType: st
     id: genMsgId(),
     sender: USRID,
     type: 'file',
-    value: file === 'hello.gif' ? file : genFilePath(file),
+    value: file,
     fileType,
     tip,
   }
