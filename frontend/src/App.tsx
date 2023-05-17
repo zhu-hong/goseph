@@ -11,7 +11,7 @@ import { createRunhub } from './utils/runhub'
 import pLimit from 'p-limit'
 import { CHUNK_SIZE } from '@/const'
 import { Tasks } from './components/Tasks'
-import { type AxiosProgressEvent } from 'axios'
+import { CanceledError, type AxiosProgressEvent } from 'axios'
 
 const enqueue = createRunhub()
 
@@ -140,9 +140,11 @@ export function App() {
         return
       }
   
+      const abortController = new AbortController()
       saveTask({
         id: taskId,
         state: TaskState.UPLOADING,
+        cancel: () => abortController.abort(),
       })
 
       const throttleProgress = throttle((e: AxiosProgressEvent) => {
@@ -157,6 +159,7 @@ export function App() {
       fd.append('hash', hash)
       const ulRes = await uploadFile(fd, {
         onUploadProgress: (e: AxiosProgressEvent) => throttleProgress(e),
+        signal: abortController.signal,
       })
   
       saveTask({
@@ -170,10 +173,12 @@ export function App() {
         tip: file.name,
       }))
     } catch (error) {
-      saveTask({
-        id: taskId,
-        state: TaskState.FAIL,
-      })
+      if(!(error instanceof CanceledError)) {
+        saveTask({
+          id: taskId,
+          state: TaskState.FAIL,
+        })
+      }
     }
   }
 
@@ -230,10 +235,12 @@ export function App() {
         return
       }
   
+      const abortController = new AbortController()
       saveTask({
         id: taskId,
         progress: 0,
         state: TaskState.UPLOADING,
+        cancel: () => abortController.abort(),
       })
 
       const chunksProgress = Array.from({ length: chunks.length }, () => 0)
@@ -263,9 +270,8 @@ export function App() {
           fd.append('index', index.toString())
   
           await uploadFile(fd, {
-            onUploadProgress: (e: AxiosProgressEvent) => {
-              updateProgress(index, e.loaded / (e.total || chunk.size))
-            }
+            onUploadProgress: (e: AxiosProgressEvent) => updateProgress(index, e.loaded / (e.total || chunk.size)),
+            signal: abortController.signal,
           })
         })
       })
@@ -292,10 +298,12 @@ export function App() {
         tip: file.name,
       }))
     } catch (error) {
-      saveTask({
-        id: taskId,
-        state: TaskState.FAIL,
-      })
+      if(!(error instanceof CanceledError)) {
+        saveTask({
+          id: taskId,
+          state: TaskState.FAIL,
+        })
+      }
     }
   }
 

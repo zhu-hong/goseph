@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Message, Task, WebSocketState } from './types'
+import { Message, Task, TaskState, WebSocketState } from './types'
 
 interface WsStore {
   wsState: WebSocketState
@@ -20,26 +20,39 @@ export const useWsStore = create<WsStore>((set) => {
 interface TaskStore {
   tasks: Task[]
   save: (task: Task) => void
+  cancel: (id: string) => void
 }
 
 export const useTaskStore = create<TaskStore>((set) => {
   return {
     tasks: [],
     save: (task) => set((state) => {
-      const newTask = [...state.tasks]
+      const newTasks = [...state.tasks]
 
-      const index = newTask.findIndex((t) => t.id === task.id)
+      const index = newTasks.findIndex((t) => t.id === task.id)
       
       if(index !== -1) {
-        newTask.splice(index, 1, {
-          ...newTask[index],
+        // 更新任务
+        newTasks[index]= {
+          ...newTasks[index],
           ...task,
-        })
+        }
       } else {
-        newTask.push(task)
+        // 添加任务
+        newTasks.push(task)
       }
 
-      return { tasks: newTask }
+      return { tasks: newTasks }
     }),
+    cancel: (id) => set((state) => {
+      const newTasks = [...state.tasks]
+      
+      const index = newTasks.findIndex((t) => t.id === id)
+      if(index === -1) return { tasks: newTasks }
+      
+      newTasks[index].cancel!()
+      newTasks.splice(index, 1)
+      return { tasks: newTasks }
+    })
   }
 })

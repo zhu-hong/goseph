@@ -44,4 +44,5 @@ export interface Task {
   progress?: number
   fileType?: string
   retry?: () => void
+  cancel?: () => void
 }

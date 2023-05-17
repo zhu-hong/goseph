@@ -19,6 +19,7 @@ export const Tasks = () => {
   const [showPanel, setShowPanel] = useState(false)
 
   const tasks = useTaskStore((state) => state.tasks)
+  const cancel = useTaskStore((state) => state.cancel)
   
   useEffect(() => {
     function hiddenPanel() {
@@ -62,17 +63,26 @@ export const Tasks = () => {
           <div className='text-black dark:text-white text-center p-4'>没有上传任务</div>
           :
           tasksDetail.map((task) => <div key={task.id} className='rounded p-2 overflow-hidden bg-light/80 text-dark/80 dark:(bg-dark text-light)'>
-            <div className='text-2xl flex items-center gap-4 mb-1'>
+            <div className='text-2xl flex items-center gap-4'>
               { buildFileIcon(task.fileType!) }
               <span className='text-base truncate flex-auto' title={task.name}>{task.name}</span>
             </div>
-            <div className='relative w-full h-2 bg-gray-300 dark:bg-gray-700 rounded overflow-hidden'>
-              <div className='h-full' style={{
-                width: `${task.progress!}%`,
-                backgroundImage: 'linear-gradient(90deg, #0fbcf9, #34e7e4)',
-              }}></div>
+            <div className='w-full flex justify-between items-center text-xl gap-2 my-2'>
+              <div className='flex-auto h-2 bg-gray-300 dark:bg-gray-700 rounded overflow-hidden'>
+                <div className='h-full' style={{
+                  width: `${task.progress!}%`,
+                  backgroundImage: 'linear-gradient(90deg, #0fbcf9, #34e7e4)',
+                }}></div>
+              </div>
+              {
+                task.state === TaskState.UPLOADING
+                ?
+                <svg onClick={() => cancel(task.id)} xmlns="http://www.w3.org/2000/svg" className='flex-none text-red-400 cursor-pointer' width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275q-.275-.275-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275L12 13.4Z"></path></svg>
+                :
+                null
+              }
             </div>
-            <div className='flex items-center mt-2 gap-2'>
+            <div className='flex items-center gap-2'>
               <div className='text-base'>
                 {
                   task.state === TaskState.SUCCESS
