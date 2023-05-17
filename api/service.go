@@ -18,9 +18,6 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 	exe, _ := os.Executable()
 	exedir := filepath.Dir(exe)
 
-	// 1/4GB限制
-	engine.MaxMultipartMemory = 1024 * 1024 * 1024 / 4
-
 	staticFiles, _ := fs.Sub(assets, "frontend/dist")
 	engine.StaticFS("/z", http.FS(staticFiles))
 
@@ -101,6 +98,13 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			if err != nil {
 				ctx.JSON(http.StatusBadRequest, gin.H{
 					"message": err.Error(),
+				})
+				return
+			}
+
+			if file.Size > 32<<20 {
+				ctx.JSON(http.StatusBadRequest, gin.H{
+					"message": "文件超过32MB",
 				})
 				return
 			}
