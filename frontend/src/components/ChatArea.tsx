@@ -127,7 +127,7 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend, filesChannel }) => {
       </div>
     }
 
-    <div className='fixed w-full h-full top-0 left-0 chatarea-placeholder grid place-items-center text-xl text-rose-400 text-dark-700 dark:text-light-700'>松手发送</div>
+    <div className='fixed w-full h-full top-0 left-0 chatarea-placeholder grid place-items-center text-xl text-rose-400'>松手发送</div>
 
   </div>
 }

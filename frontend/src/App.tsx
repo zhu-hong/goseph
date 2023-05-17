@@ -195,7 +195,7 @@ export function App() {
   return <div
     className="w-full h-full overflow-hidden mx-auto"
   >
-    <div className='fixed top-0 right-0 flex items-center'>
+    <div className='fixed top-0 right-0 flex items-center z-5'>
       <LocalAddr />
       <WsState onReconnect={initWS} />
     </div>
