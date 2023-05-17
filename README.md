@@ -5,6 +5,7 @@
 ## 截图
 
 ![goseph preview](./preview.png)
+![goseph preview2](./preview2.png)
 
 ## 大致框架
 

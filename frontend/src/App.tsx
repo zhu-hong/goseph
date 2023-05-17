@@ -107,16 +107,18 @@ export function App() {
   async function uploadSingleFile(file: File, id = '') {
     const taskId = id || genId()
     const retry = () => uploadSingleFile(file, taskId)
+
+    saveTask({
+      id: taskId,
+      name: file.name,
+      size: file.size,
+      progress: 0,
+      state: TaskState.HASHING,
+      fileType: file.type,
+      retry,
+    })
     
     try {
-      saveTask({
-        id: taskId,
-        name: file.name,
-        progress: 0,
-        state: TaskState.HASHING,
-        fileType: file.type,
-        retry,
-      })
       const hash = await hasher(file)
   
       const checkRes = await checkFile({
@@ -179,15 +181,17 @@ export function App() {
     const taskId = id || genId()
     const retry = () => uploadSplitFile(file, taskId)
 
+    saveTask({
+      id: taskId,
+      size: file.size,
+      fileType: file.type,
+      name: file.name,
+      progress: 0,
+      retry,
+      state: TaskState.HASHING,
+    })
+
     try {
-      saveTask({
-        id: taskId,
-        fileType: file.type,
-        name: file.name,
-        progress: 0,
-        retry,
-        state: TaskState.HASHING,
-      })
       const chunksCount = Math.ceil(file.size / CHUNK_SIZE)
       const chunks = []
       const chunksForHash = []

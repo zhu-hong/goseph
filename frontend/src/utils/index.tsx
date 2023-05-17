@@ -161,3 +161,14 @@ export const throttle = (fn: Function, delay = 250) => {
   return throttled
 }
 
+export const formatFileSize = (size: number): string => {
+  if(size > 1024 * 1024 * 1024) {
+    return `${(+Number(size / 1024 / 1024 / 1024).toFixed(2))}G`
+  } else if(size > 1024 * 1024) {
+    return `${(+Number(size / 1024 / 1024).toFixed(2))}M`
+  } else if (size > 1024) {
+    return `${(+Number(size / 1024).toFixed(2))}K`
+  } else {
+    return `${size}B`
+  }
+}

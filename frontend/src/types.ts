@@ -40,6 +40,7 @@ export interface Task {
   id: string
   name?: string
   state?: TaskState
+  size?: number
   progress?: number
   fileType?: string
   retry?: () => void
