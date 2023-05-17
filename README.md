@@ -6,8 +6,13 @@
 
 ![goseph introduce](./goseph.png)
 
-## 学到的东西
+## 实现的功能
 
-+ golang
-  + 文件（夹）的操作
-  + go，defer等特性
++ 局域网共享数据
++ 文件上传
+  + 大文件分片
+  + 断点续传
++ websocket广播
++ 控制异步任务队列并发
+
+## 截图
