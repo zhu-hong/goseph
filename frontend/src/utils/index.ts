@@ -5,7 +5,7 @@ import axios from 'axios'
 import { BASE_URL, USRID } from '@/const'
 import { Message } from '@/types'
 
-export const genMsgId = () => nanoid(10)
+export const genMsgId = () => nanoid(6)
 
 let hashWorker: ParallelHasher | null = null
 export const hasher = async (file: Blob) => {
