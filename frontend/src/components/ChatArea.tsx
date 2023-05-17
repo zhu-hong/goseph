@@ -1,7 +1,7 @@
 import { useMemo, type FC, useEffect, useRef, type DragEvent } from 'react'
 import { Message } from '@/types'
 import { TextChat } from './TextChat'
-import { genFileMsg, genFilePath, genMsgId } from '@/utils'
+import { genFileMsg, genFilePath, genId } from '@/utils'
 import { BASE_URL, USRID } from '@/const'
 import { FileChat } from './FileChat'
 import { useWsStore } from '@/store'
@@ -88,7 +88,7 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend, filesChannel }) => {
       dragData = JSON.parse(dragData)
       onSend({
         ...dragData as Message,
-        id: genMsgId(),
+        id: genId(),
         sender: USRID,
       })
     } catch (error) {

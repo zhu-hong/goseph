@@ -68,29 +68,29 @@ input, button {
   }
 }
 
-.addr-panel {
-  :where(.qr-panel) {
+.outter-panel {
+  :where(.inner-panel) {
     display: none;
   }
 }
-.qr-panel-enter {
+.inner-panel-enter {
   display: block;
   opacity: .6;
   transform: scale(.6);
 }
-.qr-panel-enter-active {
+.inner-panel-enter-active {
   transform: scale(1);
   opacity: 1;
 }
-.qr-panel-enter-done {
+.inner-panel-enter-done {
   display: block;
 }
-.qr-panel-exit {
+.inner-panel-exit {
   display: block;
   transform: scale(1);
   opacity: 1;
 }
-.qr-panel-exit-active {
+.inner-panel-exit-active {
   transform: scale(.6);
   opacity: .6;
 }

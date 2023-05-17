@@ -27,3 +27,20 @@ export interface Message {
   */
   tip?: string
 }
+
+export enum TaskState {
+  HASHING,
+  UPLOADING,
+  MERGEING,
+  SUCCESS,
+  FAIL,
+}
+
+export interface Task {
+  id: string
+  name?: string
+  state?: TaskState
+  progress?: number
+  fileType?: string
+  retry?: () => void
+}
