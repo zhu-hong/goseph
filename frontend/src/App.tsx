@@ -85,7 +85,7 @@ export function App() {
     }
   }, [])
 
-  function onSend(message: Message) {
+  function sendMessage(message: Message) {
     if(wsState !== WebSocketState.Open) return
 
     ws!.send(JSON.stringify(message))
@@ -110,7 +110,7 @@ export function App() {
     })
     
     if(checkRes.exist) {
-      onSend(genFileMsg({
+      sendMessage(genFileMsg({
         fileType: file.type,
         file: checkRes.file,
         tip: file.name,
@@ -123,7 +123,7 @@ export function App() {
     fd.append('hash', hash)
     const ulRes = await uploadFile(fd)
 
-    onSend(genFileMsg({
+    sendMessage(genFileMsg({
       fileType: file.type,
       file: ulRes.file,
       tip: file.name,
@@ -156,7 +156,7 @@ export function App() {
     })
 
     if(checkRes.exist) {
-      onSend(genFileMsg({
+      sendMessage(genFileMsg({
         fileType: file.type,
         file: checkRes.file,
         tip: file.name,
@@ -185,7 +185,7 @@ export function App() {
       fileName: file.name,
     })
 
-    onSend(genFileMsg({
+    sendMessage(genFileMsg({
       file: fileName,
       fileType: file.type,
       tip: file.name,
@@ -200,7 +200,7 @@ export function App() {
       <WsState onReconnect={initWS} />
     </div>
 
-    <ChatArea onSend={onSend} filesChannel={filesChannel} />
-    <ChatInput onSend={onSend} filesChannel={filesChannel}  />
+    <ChatArea onSend={sendMessage} filesChannel={filesChannel} />
+    <ChatInput onSend={sendMessage} filesChannel={filesChannel}  />
   </div>
 }
