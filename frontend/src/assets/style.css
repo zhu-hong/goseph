@@ -51,6 +51,14 @@ input, button {
 .chat {
   &area {
     overflow: overlay;
+    &-placeholder {
+      @apply transition pointer-events-none opacity-0;
+    }
+    &.dragover {
+      .chatarea-placeholder {
+        @apply backdrop-filter backdrop-blur-sm opacity-100 z-10;
+      }
+    }
   }
   &-form {
     @apply  bg-transparent transition;
