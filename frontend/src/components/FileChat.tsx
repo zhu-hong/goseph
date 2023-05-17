@@ -1,6 +1,6 @@
 import { Message } from '@/types'
-import { buildFileIcon } from '@/utils';
-import { FC, useCallback } from 'react'
+import { buildFileIcon } from '@/utils'
+import { type FC, useCallback } from 'react'
 
 export const FileChat: FC<{ msg: Message & { url: string }; className?: string }> = ({ msg, className }) => {
 

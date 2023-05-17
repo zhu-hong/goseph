@@ -58,7 +58,7 @@ export function App() {
     console.error(`websocket error: `, error)
   }
 
-  async function initWS() {
+  function initWS() {
     setWsState(WebSocketState.Connecting)
     if(ws === null || wsState === WebSocketState.Close) {
       ws = new WebSocket(`ws://${BASE_URL}/api/WS`)
@@ -308,7 +308,7 @@ export function App() {
   }
 
   return <div
-    className="w-full h-full overflow-hidden mx-auto"
+    className='w-full h-full overflow-hidden mx-auto'
   >
     <div className='fixed top-0 right-0 flex items-center z-20'>
       <LocalAddr />

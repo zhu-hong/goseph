@@ -7,12 +7,12 @@ import { FileChat } from './FileChat'
 import { useWsStore } from '@/store'
 import { FileLink } from './FileLink'
 
+let scrollTimeout: unknown = null
+
 interface ChatAreaProps {
   onSend: (message: Message) => void
   filesChannel: (files: FileList) => void
 }
-
-let scrollTimeout: unknown = null
 
 export const ChatArea: FC<ChatAreaProps> = ({ onSend, filesChannel }) => {
   const { messages } = useWsStore()
@@ -97,7 +97,7 @@ export const ChatArea: FC<ChatAreaProps> = ({ onSend, filesChannel }) => {
   }
 
   return <div
-    className="w-full h-full chatarea text-black dark:text-white relative"
+    className='w-full h-full chatarea text-black dark:text-white relative'
     ref={chatAreaRef}
     onDragOver={(e) => onDragover(e)}
     onDragLeave={(e) => onDragleave(e)}

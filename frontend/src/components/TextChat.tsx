@@ -1,5 +1,5 @@
 import { Message } from '@/types'
-import type { FC } from 'react'
+import { type FC } from 'react'
 
 export const TextChat: FC<{ msg: Message; className?: string }> = (props) => {
   return <div
