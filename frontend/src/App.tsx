@@ -173,12 +173,12 @@ export function App() {
         tip: file.name,
       }))
     } catch (error) {
-      if(!(error instanceof CanceledError)) {
-        saveTask({
-          id: taskId,
-          state: TaskState.FAIL,
-        })
-      }
+      if(error instanceof CanceledError) return
+
+      saveTask({
+        id: taskId,
+        state: TaskState.FAIL,
+      })
     }
   }
 
@@ -298,12 +298,12 @@ export function App() {
         tip: file.name,
       }))
     } catch (error) {
-      if(!(error instanceof CanceledError)) {
-        saveTask({
-          id: taskId,
-          state: TaskState.FAIL,
-        })
-      }
+      if(error instanceof CanceledError) return
+
+      saveTask({
+        id: taskId,
+        state: TaskState.FAIL,
+      })
     }
   }
 
