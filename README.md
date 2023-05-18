@@ -4,8 +4,7 @@
 
 ## 截图
 
-![goseph preview](./preview.png)
-![goseph preview2](./preview2.png)
+![goseph preview](./shortcut.png)
 
 ## 大致框架
 
