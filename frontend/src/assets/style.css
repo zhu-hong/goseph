@@ -56,7 +56,7 @@ input, button {
     }
     &.dragover {
       .chatarea-placeholder {
-        @apply backdrop-filter backdrop-blur-sm opacity-100 z-10;
+        @apply backdrop-filter backdrop-blur-lg opacity-100 z-10;
       }
     }
   }

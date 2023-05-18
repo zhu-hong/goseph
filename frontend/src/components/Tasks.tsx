@@ -42,6 +42,10 @@ export const Tasks = () => {
     })
   }, [tasks])
 
+  const runningCount = useMemo(() => {
+    return tasks.filter((t) => ![TaskState.FAIL, TaskState.SUCCESS].includes(t.state!)).length
+  }, [tasks])
+
   return <div className='w-36px h-36px outter-panel nodrag relative' onClick={(e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
     e.stopPropagation()
   }} >
@@ -50,6 +54,13 @@ export const Tasks = () => {
       setShowPanel(!showPanel)
     }} className='absolute top-0 right-0 p-2 text-xl text-gray-400 cursor-pointer rounded-full transition active:(bg-light dark:bg-dark)'>
       <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'><path fill='currentColor' d='M12.414 5H21a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2ZM13 13h3l-4-4l-4 4h3v4h2v-4Z'></path></svg>
+      {
+        runningCount > 0
+        ?
+        <span className='absolute top-0 right-0 rounded-full bg-red-600 text-xs text-white w-4 h-4 grid place-items-center'>{ runningCount }</span>
+        :
+        null
+      }
     </div>
 
     <CSSTransition nodeRef={panelRef} in={showPanel} timeout={250} classNames='inner-panel'>
