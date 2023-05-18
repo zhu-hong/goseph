@@ -66,7 +66,10 @@ export const ChatInput: FC<ChatInputProps> = ({ onSend, filesChannel }) => {
   return  <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 max-w-640px rounded w-full flex justify-between items-center dark:text-white px-4 py-2 lt-sm:px-2'>
     <form
       onSubmit={onSubmit}
-      className='chat-form flex-auto rounded-lg overflow-hidden h-48px shadow-lg dark:shadow-dark-900 flex justify-between items-center backdrop-filter backdrop-blur-sm'
+      className='chat-form flex-auto rounded-lg overflow-hidden h-48px flex justify-between items-center backdrop-filter backdrop-blur-sm'
+      style={{
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+      }}
     >
       <input
         disabled={wsState !== WebSocketState.Open}

@@ -55,12 +55,12 @@ export const Tasks = () => {
     <CSSTransition nodeRef={panelRef} in={showPanel} timeout={250} classNames='inner-panel'>
       <div
         ref={panelRef}
-        className='absolute top-full max-h-320px overflow-x-hidden overflow-y-overlay right-0 w-70 shadow bg-white/50 dark:bg-gray-900/50 rounded backdrop-filter backdrop-blur-sm origin-tr transition duration-300 inner-panel'
+        className='absolute top-full max-h-320px overflow-x-hidden overflow-y-overlay right-0 w-70 shadow backdrop-filter backdrop-blur-sm bg-white/50 dark:bg-gray-900/50 rounded backdrop-filter backdrop-blur-sm origin-tr transition duration-300 inner-panel'
       >
         {
           tasks.length === 0
           ?
-          <div className='text-black dark:text-white text-center p-4'>没有上传任务</div>
+          <div className='text-black dark:text-white text-center py-20'>没有上传任务</div>
           :
           tasksDetail.map((task) => <div key={task.id} className='rounded p-2 overflow-hidden bg-light/80 text-dark/80 dark:(bg-dark text-light)'>
             <div className='text-2xl flex items-center gap-4'>
