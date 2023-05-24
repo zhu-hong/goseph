@@ -97,25 +97,29 @@ export function App() {
 
   function filesChannel(files: FileList) {
     Array.from(files!).forEach(async (file) => {
+      const taskId = genId()
+      saveTask({
+        id: taskId,
+        name: file.name,
+        size: file.size,
+        progress: 0,
+        state: TaskState.WAITING,
+        fileType: file.type,
+      })
       if(file.size <= CHUNK_SIZE) {
-        enqueue(async () => await uploadSingleFile(file))
+        enqueue(async () => await uploadSingleFile(file, taskId))
       } else {
-        enqueue(async () => await uploadSplitFile(file))
+        enqueue(async () => await uploadSplitFile(file, taskId))
       }
     })
   }
 
-  async function uploadSingleFile(file: File, id = '') {
-    const taskId = id || genId()
-    const retry = () => uploadSingleFile(file, taskId)
+  async function uploadSingleFile(file: File, id: string) {
+    const retry = () => uploadSingleFile(file, id)
 
     saveTask({
-      id: taskId,
-      name: file.name,
-      size: file.size,
-      progress: 0,
+      id,
       state: TaskState.HASHING,
-      fileType: file.type,
       retry,
     })
     
@@ -134,7 +138,7 @@ export function App() {
           tip: file.name,
         }))
         saveTask({
-          id: taskId,
+          id,
           progress: 100,
           state: TaskState.SUCCESS,
         })
@@ -143,14 +147,14 @@ export function App() {
   
       const abortController = new AbortController()
       saveTask({
-        id: taskId,
+        id,
         state: TaskState.UPLOADING,
         cancel: () => abortController.abort(),
       })
 
       const throttleProgress = throttle((e: AxiosProgressEvent) => {
         saveTask({
-          id: taskId,
+          id,
           progress: Number((e.loaded / (e.total || file.size)).toFixed(4)) * 100,
         })
       }, 250)
@@ -164,7 +168,7 @@ export function App() {
       })
   
       saveTask({
-        id: taskId,
+        id,
         progress: 100,
         state: TaskState.SUCCESS,
       })
@@ -177,22 +181,17 @@ export function App() {
       if(error instanceof CanceledError) return
 
       saveTask({
-        id: taskId,
+        id,
         state: TaskState.FAIL,
       })
     }
   }
 
-  async function uploadSplitFile(file: File, id = '') {
-    const taskId = id || genId()
-    const retry = () => uploadSplitFile(file, taskId)
+  async function uploadSplitFile(file: File, id: string) {
+    const retry = () => uploadSplitFile(file, id)
 
     saveTask({
-      id: taskId,
-      size: file.size,
-      fileType: file.type,
-      name: file.name,
-      progress: 0,
+      id,
       retry,
       state: TaskState.HASHING,
     })
@@ -229,7 +228,7 @@ export function App() {
           tip: file.name,
         }))
         saveTask({
-          id: taskId,
+          id,
           progress: 100,
           state: TaskState.SUCCESS,
         })
@@ -238,7 +237,7 @@ export function App() {
   
       const abortController = new AbortController()
       saveTask({
-        id: taskId,
+        id,
         progress: 0,
         state: TaskState.UPLOADING,
         cancel: () => abortController.abort(),
@@ -247,7 +246,7 @@ export function App() {
       const chunksProgress = Array.from({ length: chunks.length }, () => 0)
       const updateTaskProgress = throttle((pregress: number) => {
         saveTask({
-          id: taskId,
+          id,
           progress: pregress,
         })
       }, 250)
@@ -280,7 +279,7 @@ export function App() {
       await Promise.all(reqs)
   
       saveTask({
-        id: taskId,
+        id,
         progress: 100,
         state: TaskState.MERGEING,
       })
@@ -290,7 +289,7 @@ export function App() {
       })
   
       saveTask({
-        id: taskId,
+        id,
         state: TaskState.SUCCESS,
       })
       sendMessage(genFileMsg({
@@ -302,7 +301,7 @@ export function App() {
       if(error instanceof CanceledError) return
 
       saveTask({
-        id: taskId,
+        id,
         state: TaskState.FAIL,
       })
     }

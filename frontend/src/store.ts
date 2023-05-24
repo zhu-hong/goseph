@@ -39,9 +39,9 @@ export const useTaskStore = create<TaskStore>((set) => {
         }
       } else {
         // 添加任务
-        if([task.id, task.name, task.size, task.progress, task.state, task.fileType, task.retry].some((p) => p === undefined)) return { tasks: state.tasks }
+        if([task.id, task.name, task.size, task.progress, task.state, task.fileType].some((p) => p === undefined)) return { tasks: state.tasks }
 
-        newTasks.push(task)
+        newTasks.unshift(task)
       }
 
       return { tasks: newTasks }

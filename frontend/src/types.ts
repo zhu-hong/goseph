@@ -29,6 +29,7 @@ export interface Message {
 }
 
 export enum TaskState {
+  WAITING,
   HASHING,
   UPLOADING,
   MERGEING,

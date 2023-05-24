@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group'
 
 function getTaskDesc(state: TaskState): string {
   return {
+    [TaskState.WAITING]: '等待中',
     [TaskState.HASHING]: '读取中',
     [TaskState.UPLOADING]: '上传中',
     [TaskState.MERGEING]: '合并中',
@@ -57,7 +58,7 @@ export const Tasks = () => {
       {
         runningCount > 0
         ?
-        <span className='absolute top-0 right-0 rounded-full bg-red-600 text-xs text-white w-4 h-4 grid place-items-center'>{ runningCount }</span>
+        <span className='absolute top-0 right-0 rounded-full bg-red-600 text-xs text-white w-4 h-4 grid place-items-center'>{ runningCount > 9 ? '9+' : runningCount }</span>
         :
         null
       }
