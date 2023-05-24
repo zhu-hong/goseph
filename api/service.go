@@ -14,16 +14,14 @@ import (
 )
 
 func RunService(assets fs.FS, engine *gin.Engine) {
-	// 程序运行的文件夹
-	exe, _ := os.Executable()
-	exedir := filepath.Dir(exe)
-
+	// 静态网页代理
 	staticFiles, _ := fs.Sub(assets, "frontend/dist")
 	engine.StaticFS("/z", http.FS(staticFiles))
 
 	// 跨域
 	engine.Use(cors.Default())
 
+	// websocket服务
 	wsHub := NewHub()
 	go wsHub.Run()
 
@@ -50,7 +48,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			}
 
 			hash := paylod.Hash
-			savePath := filepath.Join(exedir, "files", hash+filepath.Ext(paylod.FileName))
+			savePath := filepath.Join(CachePath, "files", hash+filepath.Ext(paylod.FileName))
 
 			// 存在这个文件了
 			if _, err := os.Stat(savePath); err == nil {
@@ -63,7 +61,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			}
 
 			// 查看有没有切片
-			chunksPath := filepath.Join(exedir, "temp", hash)
+			chunksPath := filepath.Join(CachePath, "temp", hash)
 
 			// 存在切片
 			if _, err := os.Stat(chunksPath); err == nil {
@@ -122,9 +120,9 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 
 			// 上传了整个文件
 			if len(index) == 0 {
-				savePath := filepath.Join(exedir, "files", hash+filepath.Ext(file.Filename))
+				savePath := filepath.Join(CachePath, "files", hash+filepath.Ext(file.Filename))
 
-				if err := os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm); err != nil {
+				if err := os.MkdirAll(filepath.Join(CachePath, "files"), os.ModePerm); err != nil {
 					ctx.JSON(http.StatusInternalServerError, gin.H{
 						"message": err.Error(),
 					})
@@ -152,14 +150,14 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 			}
 
 			// 文件碎片目录
-			if err := os.MkdirAll(filepath.Join(exedir, "temp", hash), os.ModePerm); err != nil {
+			if err := os.MkdirAll(filepath.Join(CachePath, "temp", hash), os.ModePerm); err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"message": err.Error(),
 				})
 				return
 			}
 			// 文件碎片保存路径
-			savePath := filepath.Join(exedir, "temp", hash, index)
+			savePath := filepath.Join(CachePath, "temp", hash, index)
 
 			if err := ctx.SaveUploadedFile(file, savePath); err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
@@ -188,7 +186,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				return
 			}
 
-			mergePath := filepath.Join(exedir, "temp", paylod.Hash)
+			mergePath := filepath.Join(CachePath, "temp", paylod.Hash)
 
 			// 没有这个合集
 			if _, err := os.Stat(mergePath); err != nil {
@@ -198,13 +196,13 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 				return
 			}
 
-			if err := os.MkdirAll(filepath.Join(exedir, "files"), os.ModePerm); err != nil {
+			if err := os.MkdirAll(filepath.Join(CachePath, "files"), os.ModePerm); err != nil {
 				ctx.JSON(http.StatusInternalServerError, gin.H{
 					"message": "文件保存文件夹创建失败",
 				})
 				return
 			}
-			savePath := filepath.Join(exedir, "files", paylod.Hash+filepath.Ext(paylod.FileName))
+			savePath := filepath.Join(CachePath, "files", paylod.Hash+filepath.Ext(paylod.FileName))
 
 			finFile, err := os.Create(savePath)
 			if err != nil {
@@ -261,7 +259,7 @@ func RunService(assets fs.FS, engine *gin.Engine) {
 
 		router.GET("File/:name", func(ctx *gin.Context) {
 			if name := ctx.Param("name"); name != "" {
-				file := filepath.Join(exedir, "files", name)
+				file := filepath.Join(CachePath, "files", name)
 
 				if _, err := os.Stat(file); err != nil {
 					ctx.Status(http.StatusNotFound)

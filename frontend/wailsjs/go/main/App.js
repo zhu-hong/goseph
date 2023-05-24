@@ -9,3 +9,7 @@ export function GetIPs() {
 export function GetMaybeLocalIP() {
   return window['go']['main']['App']['GetMaybeLocalIP']();
 }
+
+export function OpenCacheDir() {
+  return window['go']['main']['App']['OpenCacheDir']();
+}

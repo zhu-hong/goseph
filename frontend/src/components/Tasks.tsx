@@ -52,7 +52,7 @@ export const Tasks = () => {
     <div title='上传任务' onClick={() => {
       document.body.click()
       setShowPanel(!showPanel)
-    }} className='absolute top-0 right-0 p-2 text-xl text-gray-400 cursor-pointer rounded-full transition active:(bg-light dark:bg-dark)'>
+    }} className='p-2 text-xl text-gray-400 cursor-pointer rounded-full transition active:(bg-light dark:bg-dark)'>
       <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'><path fill='currentColor' d='M12.414 5H21a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2ZM13 13h3l-4-4l-4 4h3v4h2v-4Z'></path></svg>
       {
         runningCount > 0

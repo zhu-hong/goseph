@@ -12,6 +12,7 @@ import pLimit from 'p-limit'
 import { CHUNK_SIZE } from '@/const'
 import { Tasks } from './components/Tasks'
 import { CanceledError, type AxiosProgressEvent } from 'axios'
+import { CacheDir } from './components/CacheDir'
 
 const enqueue = createRunhub()
 
@@ -311,6 +312,7 @@ export function App() {
     className='w-full h-full overflow-hidden mx-auto'
   >
     <div className='fixed top-0 right-0 flex items-center z-20'>
+      <CacheDir />
       <LocalAddr />
       <Tasks />
       <WsState onReconnect={initWS} />

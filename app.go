@@ -3,7 +3,11 @@ package main
 import (
 	"context"
 	"net"
+	"os/exec"
+	"runtime"
 	"strings"
+
+	api "goseph/api"
 )
 
 // App struct
@@ -45,4 +49,12 @@ func (a *App) GetIPs() (ips []string) {
 	}
 
 	return
+}
+
+func (a *App) OpenCacheDir() {
+	if runtime.GOOS == "windows" {
+		exec.Command("explorer", api.CachePath).Start()
+	} else if runtime.GOOS == "darwin" {
+		exec.Command("open", api.CachePath).Start()
+	}
 }

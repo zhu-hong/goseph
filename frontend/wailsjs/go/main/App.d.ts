@@ -4,3 +4,5 @@
 export function GetIPs():Promise<Array<string>>;
 
 export function GetMaybeLocalIP():Promise<string>;
+
+export function OpenCacheDir():Promise<void>;
