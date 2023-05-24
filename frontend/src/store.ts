@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Message, Task, WebSocketState } from './types'
+import { Message, Task, TaskState, WebSocketState } from './types'
 
 interface WsStore {
   wsState: WebSocketState
@@ -39,7 +39,7 @@ export const useTaskStore = create<TaskStore>((set) => {
         }
       } else {
         // 添加任务
-        if([task.id, task.name, task.size, task.progress, task.state, task.fileType].some((p) => p === undefined)) return { tasks: state.tasks }
+        if([task.id, task.state, task.name, task.size, task.fileType, task.progress].some((p) => p === undefined) || task.state !== TaskState.WAITING) return { tasks: state.tasks }
 
         newTasks.unshift(task)
       }
